@@ -6,19 +6,22 @@ const cors = require("cors");
 require("dotenv").config();
 
 const corsOptions = {
-    origin: ["http://localhost:5173"],
-    credentials: true
-}
+  origin: ["http://localhost:5173"],
+  credentials: true,
+};
 
 app.use(express.json());
 app.use("/api", authRoutes);
 app.use(cors(corsOptions));
 
-
-
-const port = process.env.PORT || "5000"
+const port = process.env.PORT || "5000";
 const MONGOURL = process.env.MONGO_URL;
 
+mongoose
+  .connect(MONGOURL)
+  .then(() => console.log("MongoDB database connected"))
+  .catch((err) => console.log(`Error ${err}`));
+
 app.listen(5000, () => {
-    console.log(`Server is listening on port ${port}`);
-})
+  console.log(`Server is listening on port ${port}`);
+});
