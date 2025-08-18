@@ -15,12 +15,12 @@ export default function Home({ data, chunkArray }) {
       <div className="home-container">
         <Header />
         <HeroSection />
-        <p id="span-title">You might need</p>
+        <p id="span-title">You might need</p>  
 
         {productChunks.map((chunk, rowIndex) => (
           <div key={rowIndex}>
 
-            <div className="product-row">
+            <div className="product-row" >
               {chunk.map((product) => (
                 <div className="product-card" key={product.id}>
                   <img

@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"
+import axios from "axios";
 import "../styles/signup.css";
 import signupImg from "../images/signup-image.jpg";
 
 export default function Signup() {
+  const [user, setUser] = useState({});
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,19 +41,24 @@ export default function Signup() {
 
       if (response.status === 201) {
         console.log("Registered Successfully");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+        setUser(response.data.user);
+        setIsAuthenticated(true);
         setError(null);
-        navigate("/login");
+        navigate("/home");
       }
 
       setEmail("");
       setPassword("");
       setConfirmPassword("");
     } catch (err) {
-      console.error("Error during registation:", err);
+      console.error("[Register Route] Error while creating user:", err.message);
       if (err.response) {
         setError(err.response.data.msg || "Registration failed.");
       } else {
-        setError("An error occurred. Please try again.");
+        setError("An error occurred registration. Please try again.");
       }
     }
   };
@@ -82,7 +89,7 @@ export default function Signup() {
             <div className="form-group">
               <input
                 type="email"
-                placeholder="Email Address"
+                placeholder="Email"
                 value={email}
                 autoComplete="off"
                 onChange={(e) => setEmail(e.target.value)}
