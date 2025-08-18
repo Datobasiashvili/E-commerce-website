@@ -1,6 +1,8 @@
 import LoadingPage from "./Loadingpage";
 import Header from "./header";
 import HeroSection from "./HeroSection";
+import SpecialBanner from "./SpecialBanner";
+import DetailedProduct from "./DetailedProduct";
 import "../styles/home.css";
 
 export default function Home({ data, chunkArray }) {
@@ -14,21 +16,29 @@ export default function Home({ data, chunkArray }) {
         <Header />
         <HeroSection />
         <p id="span-title">You might need</p>
+
         {productChunks.map((chunk, rowIndex) => (
-          <div className="product-row" key={rowIndex}>
-            {chunk.map((product) => (
-              <div className="product-card" key={product.id}>
-                <img
-                  src={product.thumbnail}
-                  alt={product.title}
-                  className="product-image"
-                />
-                <h3 className="product-title">{product.title}</h3>
-                <p className="category">{product.category}</p>
-                <p className="product-price">{product.price}$</p>
-                <button className="add-btn">+</button>
-              </div>
-            ))}
+          <div key={rowIndex}>
+
+            <div className="product-row">
+              {chunk.map((product) => (
+                <div className="product-card" key={product.id}>
+                  <img
+                    src={product.thumbnail}
+                    alt={product.title}
+                    className="product-image"
+                  />
+                  <h3 className="product-title">{product.title}</h3>
+                  <p className="category">{product.category}</p>
+                  <p className="product-price">{product.price}$</p>
+                  <button className="add-btn">+</button>
+                </div>
+              ))}
+            </div>
+
+
+              {rowIndex === 1 && <DetailedProduct product={data[11]} /> }
+              {rowIndex === 3 && <SpecialBanner />}
           </div>
         ))}
       </div>

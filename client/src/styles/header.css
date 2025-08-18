@@ -1,18 +1,35 @@
-/* header.css */
 
-.header-component {
-  background-color: #1e40af;
-  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-  padding: 12px 24px;
+
+.header-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000; 
+  height: 120px;
+  background: #e3e5e7; 
   display: flex;
   align-items: center;
-  gap: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  position: relative;
-  min-height: 60px;
-  border-radius: 18px;
-  margin: 8px;
+  justify-content: center;
 }
+
+.header-component {
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  gap: 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  min-height: 64px;
+  border-radius: 20px;
+  width: 85%; 
+  max-width: 1200px;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+
+
 
 /* Menu Button */
 #menu-button {
@@ -108,8 +125,6 @@
   width: 24px;
   height: 24px;
 }
-
-/* Cart badge (removed - will be handled by function) */
 
 /* Responsive Design */
 @media (max-width: 768px) {

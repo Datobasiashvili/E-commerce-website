@@ -1,0 +1,47 @@
+.special-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #1e3c72, #2a5298); /* bluish gradient */
+  color: white;
+  border-radius: 15px;
+  padding: 2rem;
+  margin: 2rem 0;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.banner-content {
+  flex: 1;
+  min-width: 250px;
+}
+
+.banner-title {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.banner-subtitle {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.banner-button {
+  padding: 0.8rem 1.5rem;
+  background-color: #00b4d8; /* accent bluish button */
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.banner-button:hover {
+  background-color: #0077b6;
+}
+
+.banner-image img {
+  max-width: 300px;
+  border-radius: 12px;
+}

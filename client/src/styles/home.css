@@ -1,10 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 
+html {
+  scroll-behavior: smooth;
+}
+
 .home-container {
-  background-color: #f9fafb;
+  padding-top: 84px;
+  background-color: #e3e5e7;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
 }
 
 #span-title {

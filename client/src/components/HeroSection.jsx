@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/heroSection.css"; // Import the CSS file
+import "../styles/heroSection.css"; 
 
 const HeroSection = () => {
   const [isHovered, setIsHovered] = useState(false);
