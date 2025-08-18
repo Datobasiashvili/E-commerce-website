@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useProducts } from "./ProductContext";
 import "../styles/searchbar.css";
-import { use } from "react";
-import e from "cors";
+
 
 export default function Searchbar() {
   const products = useProducts();
@@ -15,6 +14,6 @@ export default function Searchbar() {
   };
 
   return (
-    <input type="text" placeholder="Search for..." onChange={handleSearch} />
+    <input type="text" placeholder="Search for..." onChange={handleSearch} id="searchbar" />
   );
 }
