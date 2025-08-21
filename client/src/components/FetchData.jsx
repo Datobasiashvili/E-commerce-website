@@ -6,15 +6,15 @@ export default function FetchData() {
   const [productData, setProductData] = useState([]);
 
   const chunkArray = (array, chunkSize) => {
-        const chunks =  []
-        for (let i = 0; i < array.length; i += chunkSize) {
-            chunks.push(array.slice(i, i + chunkSize));
-        }       
-        return chunks;
+    const chunks = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      chunks.push(array.slice(i, i + chunkSize));
     }
+    return chunks;
+  };
 
   useEffect(() => {
-    fetch('https://dummyjson.com/products')
+    fetch("https://dummyjson.com/products")
       .then((res) => res.json())
       .then((data) => {
         setProductData(data.products);
@@ -30,5 +30,5 @@ export default function FetchData() {
         <Home data={productData} chunkArray={chunkArray} />
       </ProductContext.Provider>
     </>
-  )
+  );
 }

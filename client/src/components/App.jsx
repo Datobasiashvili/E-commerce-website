@@ -1,8 +1,17 @@
-import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route, Navigate } from "react-router-dom";
+import {
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 import FetchData from "./FetchData.jsx";
 import Signup from "./Signup.jsx";
 import Login from "./Login.jsx";
+import Account from "./Account.jsx";
+import { useState, useEffect, createContext } from "react";
+import axios from "axios";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -11,12 +20,36 @@ const router = createBrowserRouter(
       <Route path="/home" element={<FetchData />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/account" element={<Account />} />
     </>
   )
 );
 
+export const UserContext = createContext();
+
 function App() {
-  return <RouterProvider router={router} />;
+  const [user, setUser] = useState({});
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/account", { withCredentials: true })
+      .then((res) => {
+        setUser(res.data.user);
+        setIsAuthenticated(res.data.isAuthenticated);
+      })
+      .catch((err) => {
+        console.error(`Error: ${err}`);
+        setUser({});
+        setIsAuthenticated(false);
+      });
+  }, []);
+
+  return (
+    <UserContext.Provider value={{ user, setUser, isAuthenticated, setIsAuthenticated }}>
+      <RouterProvider router={router} />
+    </UserContext.Provider>
+  );
 }
 
 export default App;

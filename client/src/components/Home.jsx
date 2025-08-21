@@ -5,9 +5,17 @@ import SpecialBanner from "./SpecialBanner";
 import DetailedProduct from "./DetailedProduct";
 import "../styles/home.css";
 
-export default function Home({ data, chunkArray }) {
-  const productChunks = chunkArray(data, 5);
+// Using useContext to get the user authentication data from login and signup pages.
+import { useContext } from "react";
+import { UserContext } from "./App";
 
+export default function Home({ data, chunkArray }) {
+
+  const { isAuthenticated } = useContext(UserContext);
+  console.log(`Is user authenticated?: ${isAuthenticated}`)
+
+  const productChunks = chunkArray(data, 5);
+  
   if (data.length === 0) return <LoadingPage />;
 
   return (
@@ -31,7 +39,7 @@ export default function Home({ data, chunkArray }) {
                   <h3 className="product-title">{product.title}</h3>
                   <p className="category">{product.category}</p>
                   <p className="product-price">{product.price}$</p>
-                  <button className="add-btn">+</button>
+                  <button className="add-btn" disabled={!isAuthenticated}>+</button>
                 </div>
               ))}
             </div>

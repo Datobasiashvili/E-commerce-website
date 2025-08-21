@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import { useProducts } from "./ProductContext";
 import "../styles/searchbar.css";
 

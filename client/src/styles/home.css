@@ -80,7 +80,7 @@ html {
 }
 
 .add-btn {
-  background: #f2f8f4;
+  background: #cffade;
   border: none;
   color: #111;
   font-size: 22px;
@@ -94,5 +94,5 @@ html {
 }
 
 .add-btn:hover {
-  background: #d9f0e2;
+  background: #8be0ac;
 }

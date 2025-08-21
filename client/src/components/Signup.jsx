@@ -5,8 +5,6 @@ import "../styles/signup.css";
 import signupImg from "../images/signup-image.jpg";
 
 export default function Signup() {
-  const [user, setUser] = useState({});
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,15 +42,10 @@ export default function Signup() {
         setEmail("");
         setPassword("");
         setConfirmPassword("");
-        setUser(response.data.user);
-        setIsAuthenticated(true);
         setError(null);
         navigate("/home");
       }
 
-      setEmail("");
-      setPassword("");
-      setConfirmPassword("");
     } catch (err) {
       console.error("[Register Route] Error while creating user:", err.message);
       if (err.response) {

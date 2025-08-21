@@ -2,10 +2,11 @@ const express = require("express");
 const router = express.Router();
 const userSchema = require("../utils/validationSchema");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const User = require("../models/mongoose_models");
 const generateTokenAndSetCookie = require("../utils/generateTokenAndSetCookie");
 
-// User registration
+// User registration / Sign up
 router.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -51,13 +52,9 @@ router.post("/register", async (req, res) => {
   }
 });
 
-
 // User login
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  console.log("request body");
-  console.log(email)
-  console.log(password);
 
   try {
     const user = await User.findOne({ email: email.toLowerCase() });
@@ -86,6 +83,31 @@ router.post("/login", async (req, res) => {
     console.error("Error in login", err);
     res.status(400).json({ msg: err.message });
   }
+});
+
+// Route that checks the cookie
+router.get("/account", async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ message: "Unauthorized" });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const user = await User.findById(decoded.userId).select("-password"); // exclude password
+    if (!user)
+      return res
+        .status(404)
+        .json({ isAuthenticated: false, message: "User not found" });
+
+    res.json({ isAuthenticated: true, user });
+  } catch (err) {
+    return res.status(401).json({ message: "Invalid token" });
+  }
+});
+
+// Logout route
+router.post("/logout", (req, res) => {
+  res.clearCookie("token").json({ message: "Logged out" });
 });
 
 module.exports = router;

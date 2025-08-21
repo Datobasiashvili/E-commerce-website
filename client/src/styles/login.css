@@ -151,6 +151,37 @@
   opacity: 0.9;
 }
 
+.login-password-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Password toggle button */
+.password-toggle {
+  position: absolute;
+  right: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.password-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Adjust input padding to make room for the button */
+.login-password-input-container input {
+  padding-right: 45px;
+  width: 100%;
+}
+
 /* Footer */
 .login-footer {
   margin-top: 1.5rem;

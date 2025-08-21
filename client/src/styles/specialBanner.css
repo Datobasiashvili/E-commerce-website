@@ -1,47 +1,93 @@
-.special-banner {
+
+.banner-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(135deg, #1e3c72, #2a5298); /* bluish gradient */
-  color: white;
-  border-radius: 15px;
-  padding: 2rem;
-  margin: 2rem 0;
-  gap: 2rem;
-  flex-wrap: wrap;
+  background: linear-gradient(135deg, #9ec1f5 0%, #c3cfe2 100%);
+  border-radius: 12px;
+  padding: 30px;
+  margin: 20px 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Poppins', 'Segoe UI', 'Roboto', sans-serif;
 }
 
 .banner-content {
   flex: 1;
-  min-width: 250px;
+  max-width: 60%;
+  padding-right: 30px;
 }
 
 .banner-title {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 15px;
 }
 
-.banner-subtitle {
-  font-size: 1rem;
-  margin-bottom: 1.5rem;
+.banner-description {
+  font-size: 1.2rem;
+  color: #4a5568;
+  margin-bottom: 25px;
+  line-height: 1.5;
 }
 
 .banner-button {
-  padding: 0.8rem 1.5rem;
-  background-color: #00b4d8; 
-  border: none;
-  border-radius: 8px;
+  background-color: #4299e1;
   color: white;
-  font-weight: bold;
+  border: none;
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 30px;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(66, 153, 225, 0.3);
 }
 
 .banner-button:hover {
-  background-color: #0077b6;
+  background-color: #3182ce;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(66, 153, 225, 0.4);
+}
+
+.banner-image {
+  flex: 1;
+  max-width: 40%;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .banner-image img {
-  max-width: 300px;
-  border-radius: 12px;
+  width: 100%;
+  max-width: 350px;
+  border-radius: 8px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+
+@media (max-width: 768px) {
+  .banner-container {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .banner-content {
+    max-width: 100%;
+    padding-right: 0;
+    margin-bottom: 20px;
+  }
+  
+  .banner-image {
+    max-width: 100%;
+    justify-content: center;
+  }
+  
+  .banner-title {
+    font-size: 2rem;
+  }
+  
+  .banner-description {
+    font-size: 1rem;
+  }
 }
