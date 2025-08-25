@@ -38,6 +38,7 @@ html {
 }
 
 .product-card:hover {
+  cursor: pointer;
   transform: translateY(-4px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
@@ -62,13 +63,6 @@ html {
   color: #333;
   text-align: center;
   font-family: "Poppins", sans-serif;
-}
-
-.product-category {
-  font-size: 14px;
-  color: #666;
-  margin: 3px 0;
-  font-family: "Nunito", sans-serif;
 }
 
 .product-price {

@@ -4,7 +4,7 @@ const userSchema = require("../utils/validationSchema");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/mongoose_models");
-const generateTokenAndSetCookie = require("../utils/generateTokenAndSetCookie");
+const generateToken = require("../utils/generateToken");
 
 // User registration / Sign up
 router.post("/register", async (req, res) => {
@@ -35,18 +35,24 @@ router.post("/register", async (req, res) => {
     });
     await newUser.save();
 
+    const { password: pwd, ...userWithoutPassword } = newUser._doc;
+
     //Setting an authentication JWT token to the user
-    generateTokenAndSetCookie(res, newUser._id);
+    const token = generateToken(newUser._id);
 
     //Sending user data to the front-end to know if the user is authenticated and display content based on that.
-    res.status(201).json({
-      msg: "User registered successfully",
-      user: {
-        id: newUser._id,
-        name: newUser.name,
-        email: newUser.email,
-      },
-    });
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production" ? true : false,
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      })
+      .status(201)
+      .json({
+        msg: "User registered successfully",
+        user: userWithoutPassword,
+      });
   } catch (err) {
     res.status(500).json({ msg: "Server error", error: err.message });
   }
@@ -67,25 +73,31 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ msg: "Wrong password" });
     }
 
-    generateTokenAndSetCookie(res, user._id);
-
     user.lastLogin = new Date();
     await user.save();
 
-    res.status(200).json({
-      msg: "Logged in successfully",
-      user: {
-        id: user._id,
-        email: user.email,
-      },
-    });
+    const { password: pwd, ...userWithoutPassword } = user._doc;
+    const token = generateToken(user._id);
+
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production" ? true : false,
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      })
+      .status(200)
+      .json({
+        msg: "Logged in successfully",
+        user: userWithoutPassword,
+      });
   } catch (err) {
     console.error("Error in login", err);
     res.status(400).json({ msg: err.message });
   }
 });
 
-// Route that checks the cookie
+// Route that checks the cookie and sends the authenticated user to the frontend
 router.get("/account", async (req, res) => {
   const token = req.cookies.token;
   if (!token) return res.status(401).json({ message: "Unauthorized" });

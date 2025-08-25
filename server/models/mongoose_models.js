@@ -14,6 +14,9 @@ const userSchema = mongoose.Schema({
     type: String,
     required: [true, "Password is required"],
   },
+  cart: {
+    type: Array,
+  },
   lastLogin: {
     type: Date,
     default: Date.now()

@@ -3,12 +3,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useContext } from "react";
+import { UserContext } from "./App";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  const { setIsAuthenticated, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -35,6 +37,8 @@ export default function Login() {
       );
 
       if (response.status === 200) {
+        setUser(response.data.user)
+        setIsAuthenticated(true)
         console.log("Logged in successfully");
         setError(null);
         setEmail("");
@@ -92,7 +96,7 @@ export default function Login() {
 
             <div className="form-group">
               <label htmlFor="password">Password</label>
-              <div className="login-password-input-container">
+              <div className="password-input-container">
                 <input
                   type={showPassword ? "text" : "password"}
                   id="password"

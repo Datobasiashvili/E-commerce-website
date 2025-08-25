@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser")
 require("dotenv").config();
 
 const authRoutes = require("./routes/authRoutes");
+const cartRoutes = require("./routes/cartRoutes");
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(cookieParser());
 
 // Routes
 app.use("/api", authRoutes);
+app.use("/api", cartRoutes);
 
 const MONGOURL = process.env.MONGO_URL;
 mongoose

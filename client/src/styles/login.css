@@ -151,7 +151,7 @@
   opacity: 0.9;
 }
 
-.login-password-input-container {
+.password-input-container {
   position: relative;
   display: flex;
   align-items: center;
@@ -177,7 +177,7 @@
 }
 
 /* Adjust input padding to make room for the button */
-.login-password-input-container input {
+.password-input-container input {
   padding-right: 45px;
   width: 100%;
 }
@@ -256,5 +256,3 @@
     font-size: 1.6rem;
   }
 }
-
-

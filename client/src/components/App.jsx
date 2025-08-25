@@ -10,6 +10,9 @@ import FetchData from "./FetchData.jsx";
 import Signup from "./Signup.jsx";
 import Login from "./Login.jsx";
 import Account from "./Account.jsx";
+import Cart from "./Cart.jsx";
+import Favorites from "./Favorites.jsx";
+import Product from "./Product.jsx";
 import { useState, useEffect, createContext } from "react";
 import axios from "axios";
 
@@ -21,6 +24,9 @@ const router = createBrowserRouter(
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
       <Route path="/account" element={<Account />} />
+      <Route path="/cart" element={<Cart />} />
+      <Route path="/favorites" element={<Favorites />} />
+      <Route path = '/products/:productID/' element={<Product />} />
     </>
   )
 );

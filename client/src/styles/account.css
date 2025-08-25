@@ -1,11 +1,11 @@
-
 .account-container {
+  margin-top: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 80vh;
   padding: 20px;
-  font-family: 'Poppins', 'Segoe UI', 'Roboto', sans-serif;
+  font-family: "Poppins", "Segoe UI", "Roboto", sans-serif;
 }
 
 .account-card {
@@ -51,11 +51,12 @@
 }
 
 .info-label {
-  font-weight: 600;
+  font-weight: 550;
   color: #4a5568;
 }
 
 .info-value {
+  font-weight: 600;
   color: #2d3748;
   text-align: right;
 }
@@ -94,7 +95,7 @@
   font-size: 1.2rem;
   color: #718096;
   margin-top: 50px;
-  font-family: 'Poppins', 'Segoe UI', 'Roboto', sans-serif;
+  font-family: "Poppins", "Segoe UI", "Roboto", sans-serif;
 }
 
 /* Responsive design */
@@ -102,16 +103,16 @@
   .account-card {
     padding: 30px 20px;
   }
-  
+
   .account-title {
     font-size: 1.8rem;
   }
-  
+
   .info-item {
     flex-direction: column;
     gap: 5px;
   }
-  
+
   .info-value {
     text-align: left;
   }

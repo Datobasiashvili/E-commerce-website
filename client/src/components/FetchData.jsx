@@ -22,8 +22,6 @@ export default function FetchData() {
       .catch((err) => `Error: ${err}`);
   }, []);
 
-  console.log(productData);
-
   return (
     <>
       <ProductContext.Provider value={productData}>
