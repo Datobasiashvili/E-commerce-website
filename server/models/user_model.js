@@ -31,5 +31,5 @@ const userSchema = mongoose.Schema({
   verificationTokenExpiresAt: Date,
 }, {timestamps: true });
 
-const userModel = mongoose.models.user || mongoose.model("user", userSchema);
+const userModel = mongoose.models.user || mongoose.model("User", userSchema, "users");
 module.exports = userModel;

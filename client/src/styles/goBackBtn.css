@@ -1,0 +1,32 @@
+.go-back-btn {
+  position: fixed;
+  top: 20px;
+  left: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: #4a5568;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.go-back-btn:hover {
+  color: #2d3748;
+  transform: translateX(-4px);
+}
+
+.go-back-btn svg {
+  margin-right: 8px;
+  transition: transform 0.3s ease;
+}
+
+.go-back-btn:hover svg {
+  transform: translateX(-3px);
+}

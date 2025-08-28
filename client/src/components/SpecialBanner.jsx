@@ -7,7 +7,7 @@ export default function SpecialBanner() {
         <h1 className="banner-title">Limited Time Offer!</h1>
         <p className="banner-description">
           Get exclusive discounts on selected products. Don't miss out!
-        </p>
+        </p> 
         <button className="banner-button">Shop Now</button>
       </div>
       <div className="banner-image">

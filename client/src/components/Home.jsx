@@ -5,16 +5,28 @@ import SpecialBanner from "./SpecialBanner";
 import DetailedProduct from "./DetailedProduct";
 import { addProductToCart } from "../../../server/utils/cartAPI";
 import { useNavigate } from "react-router-dom";
+import { useProducts } from "./ProductContext";
 import "../styles/home.css";
 
 // Using useContext to get the user authentication data from login and signup pages.
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { UserContext } from "./App";
 
-export default function Home({ data, chunkArray }) {
-  const { user, isAuthenticated } = useContext(UserContext);
+export default function Home() {
+  const { productData: products = [] } = useProducts() || {};
+  const { isAuthenticated } = useContext(UserContext);
   console.log(`Is user authenticated?: ${isAuthenticated}`);
-  const productChunks = chunkArray(data, 5);
+
+  const chunkArray = (array, chunkSize) => {
+    const chunks = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      chunks.push(array.slice(i, i + chunkSize));
+    }
+    return chunks;
+  };
+
+
+  const productChunks = chunkArray(products, 5);
   const navigate = useNavigate();
 
   const handleAddProduct = async (e, product) => {
@@ -32,7 +44,7 @@ export default function Home({ data, chunkArray }) {
     }
   };
 
-  if (data.length === 0) return <LoadingPage />;
+  if (products.length === 0) return <LoadingPage />;
 
   return (
     <>
@@ -45,9 +57,9 @@ export default function Home({ data, chunkArray }) {
           <div key={rowIndex}>
             <div className="product-row">
               {chunk.map((product) => (
-                <div className="product-card" key={product.id} onClick={() => navigate(`/products/${product.id}`)}>
+                <div className="product-card" key={product.id} onClick={() => navigate(`/products/${product._id}`)}>
                   <img
-                    src={product.thumbnail}
+                    src={product.images[0] || product.thumbnail}
                     alt={product.title}
                     className="product-image"
                   />
@@ -64,7 +76,7 @@ export default function Home({ data, chunkArray }) {
               ))}
             </div>
 
-            {rowIndex === 1 && <DetailedProduct product={data[11]} />}
+            {rowIndex === 1 && <DetailedProduct product={products[11]} />}
             {rowIndex === 3 && <SpecialBanner />}
           </div>
         ))}

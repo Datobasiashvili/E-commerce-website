@@ -3,7 +3,11 @@ import { UserContext } from "./App";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "./header";
-import { addProductToCart } from "../../../server/utils/cartAPI";
+import {
+  addProductToCart,
+  deleteProductFromCart,
+  decreaseCartProductQuantity,
+} from "../../../server/utils/cartAPI";
 import LoadingPage from "./Loadingpage";
 import "../styles/cart.css";
 
@@ -12,17 +16,6 @@ export default function Cart() {
   const { user } = useContext(UserContext);
 
   const navigate = useNavigate();
-
-  const handleAddProduct = async (product) => {
-    try {
-      const response = await addProductToCart(product);
-      if (response.status === 200) {
-        console.log(response.data.message);
-      }
-    } catch (err) {
-      console.error(`Error during adding the product: ${err}`);
-    }
-  };
 
   const getCart = async () => {
     try {
@@ -34,11 +27,59 @@ export default function Cart() {
       );
 
       if (response.status === 200) {
-        setCartProducts(response.data.cartProducts);
+        setCartProducts(() => response.data.cartProducts);
       }
     } catch (err) {
       console.error(err.response?.data || err.message);
       setCartProducts([]);
+    }
+  };
+
+  //Fetching data from the cart/products whenevr a new produt is being added to the cart.
+  const handleAddCartProduct = async (e, product) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    try {
+      const response = await addProductToCart(product);
+      if (response.status === 200) {
+        console.log(response.data.message);
+        getCart();
+      }
+    } catch (err) {
+      console.error(`Error during adding the product: ${err}`);
+    }
+  };
+
+  const handleDeleteCartProduct = async (e, product) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    try {
+      const response = await deleteProductFromCart(product);
+      if (response.status === 200) {
+        console.log(response.data.message);
+        getCart();
+      }
+    } catch (err) {
+      console.error(`Error during deleting the product from cart: ${err}`);
+    }
+  };
+
+  const handleDecreaseProductQuantity = async (e, productId) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    try {
+      const response = await decreaseCartProductQuantity(productId);
+      if (response.status === 200) {
+        console.log(response.data.message);
+        getCart();
+      }
+    } catch (err) {
+      console.error(
+        `Error during decreasing the product's quantity from the cart: ${err}`
+      );
     }
   };
 
@@ -88,7 +129,7 @@ export default function Cart() {
           <div className="cart-content">
             <ul className="cart-items-list">
               {cartProducts.map((product, index) => (
-                <li key={index} className="cart-item">
+                <li key={index} className="cart-item" onClick={() => navigate(`/products/${product._id}`)}>
                   <div className="cart-product-image-container">
                     <img
                       src={product.thumbnail}
@@ -97,25 +138,38 @@ export default function Cart() {
                     />
                   </div>
                   <div className="product-details">
-                    <h3 className="product-name">{product.name}</h3>
-                    <p className="product-description">
-                      Premium quality product with 1-year warranty
-                    </p>
+                    <h3 className="product-name">{product.title}</h3>
+                    {product.warrantyInformation && (
+                      <p className="product-description">
+                        Premium quality product with{" "}
+                        {product.warrantyInformation}
+                      </p>
+                    )}
                     <div className="product-meta">
                       <span className="product-price">${product.price}</span>
                       <div className="quantity-controls">
-                        <button className="quantity-btn">-</button>
+                        <button
+                          className="quantity-btn"
+                          onClick={(e) =>
+                            handleDecreaseProductQuantity(e, product._id)
+                          }
+                        >
+                          -
+                        </button>
                         <span className="quantity">{product.quantity}</span>
                         <button
                           className="quantity-btn"
-                          onClick={() => handleAddProduct(product)}
+                          onClick={(e) => handleAddCartProduct(e, product)}
                         >
                           +
                         </button>
                       </div>
                     </div>
                   </div>
-                  <button className="remove-item-btn">
+                  <button
+                    className="remove-item-btn"
+                    onClick={(e) => handleDeleteCartProduct(e, product)}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       height="24px"

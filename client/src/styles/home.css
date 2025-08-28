@@ -45,6 +45,7 @@ html {
 
 .product-image {
   max-width: 160px;
+  max-height: 160px;
   height: auto;
   margin-bottom: 18px;
   transition: transform 0.25s ease;

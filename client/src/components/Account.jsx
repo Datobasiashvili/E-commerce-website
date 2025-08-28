@@ -54,6 +54,8 @@ export default function Account() {
             </p>
           </div>
 
+          
+
           <div className="account-info">
             <div className="info-item">
               <span className="info-label">Name:</span>
@@ -89,6 +91,9 @@ export default function Account() {
               <line x1="21" y1="12" x2="9" y2="12"></line>
             </svg>
           </button>
+
+          <button className="add-product-btn" onClick={() => navigate('/product/add')}>Add a product</button>
+
         </div>
       </div>
     </>

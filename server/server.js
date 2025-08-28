@@ -6,6 +6,7 @@ require("dotenv").config();
 
 const authRoutes = require("./routes/authRoutes");
 const cartRoutes = require("./routes/cartRoutes");
+const productRoutes = require("./routes/productRoutes")
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(cookieParser());
 // Routes
 app.use("/api", authRoutes);
 app.use("/api", cartRoutes);
+app.use("/api", productRoutes);
 
 const MONGOURL = process.env.MONGO_URL;
 mongoose

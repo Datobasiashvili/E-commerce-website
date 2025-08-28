@@ -37,7 +37,8 @@
   left: 0;
   right: 0;
   background: #fefefe;
-  border-radius: 14px;
+  border-top-left-radius: 14px;
+  border-bottom-left-radius: 14px;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
   margin-top: 10px;
   max-height: 400px;
@@ -99,7 +100,6 @@
   overflow: hidden;
   margin-right: 16px;
   flex-shrink: 0;
-  background-color: #f3f4f6;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -159,21 +159,22 @@
 
 /* Scrollbar Styling */
 .search-results::-webkit-scrollbar {
-  width: 8px;
+  width: 7px;
 }
 
 .search-results::-webkit-scrollbar-track {
-  background: #f3f4f6;
-  border-radius: 0 12px 12px 0;
+  background: #eaeef7;
+  border-top-right-radius: 14px;
+  border-bottom-right-radius: 14px;
 }
 
 .search-results::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #d8980c;
   border-radius: 4px;
 }
 
 .search-results::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #e9b034;
 }
 
 /* Responsive Design */

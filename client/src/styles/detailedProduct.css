@@ -7,7 +7,7 @@
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
 
 .dp-promo-section {
@@ -26,7 +26,6 @@
   font-size: 0.9rem;
 }
 
-
 .dp-content {
   display: flex;
   gap: 30px;
@@ -41,6 +40,10 @@
   min-height: 400px;
   background: #f1f2f6;
   border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .dp-product-image {
@@ -49,6 +52,7 @@
   width: auto;
   height: auto;
   object-fit: contain;
+  margin: 0 auto;
 }
 
 .dp-details {
@@ -113,10 +117,15 @@
   cursor: pointer;
   transition: all 0.2s;
   font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
 }
 
 .dp-cart-btn:hover {
-  background: #5352ed;
+  transform: translateY(-2px);
+  background: #0f0fac;
 }
 
 .dp-wishlist-btn {
@@ -133,6 +142,7 @@
 
 .dp-wishlist-btn:hover {
   background: #f1f2f6;
+  transform: translateY(-2px);
 }
 
 .dp-meta {
@@ -164,7 +174,7 @@
   .dp-content {
     flex-direction: column;
   }
-  
+
   .dp-promo-section {
     flex-direction: column;
     align-items: flex-start;

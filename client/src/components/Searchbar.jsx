@@ -4,18 +4,22 @@ import { useNavigate } from "react-router-dom";
 import "../styles/searchbar.css";
 
 export default function Searchbar() {
-  const products = useProducts();
+  const { productData: products = [] } = useProducts() || {};
   const [searchQuery, setSearchQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
-    const query = e.target.value
+    const query = e.target.value;
     setSearchQuery(query);
   };
 
   const filteredProducts = searchQuery
-    ? products.filter((p) => p.title.toLowerCase().includes(searchQuery.toLowerCase()))
+    ? products.filter(
+        (p) =>
+          p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          p.brand?.toLowerCase().includes(searchQuery.toLowerCase())
+      )
     : [];
 
   const handleFocus = () => {
@@ -52,13 +56,19 @@ export default function Searchbar() {
               </div>
               <div className="results-list">
                 {filteredProducts.map((product) => (
-                  <div key={product.id} className="filteredProduct-result" onClick={() => navigate(`/products/${product.id}`)}>
+                  <div
+                    key={product.id}
+                    className="filteredProduct-result"
+                    onClick={() => navigate(`/products/${product._id}`)}
+                  >
                     <div className="filteredProduct-image">
                       <img src={product.thumbnail} alt={product.title} />
                     </div>
                     <div className="filteredProduct-details">
                       <h4 className="filteredProduct-title">{product.title}</h4>
-                      <p className="filteredProduct-category">{product.category}</p>
+                      <p className="filteredProduct-category">
+                        {product.brand}
+                      </p>
                       <div className="filteredProduct-price">
                         ${product.price.toFixed(2)}
                       </div>

@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const userSchema = require("../utils/validationSchema");
+const { userSchema } = require("../utils/validationSchema");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const User = require("../models/mongoose_models");
+const User = require("../models/user_model");
 const generateToken = require("../utils/generateToken");
+const verifyTokenAndUser = require("../middleware/verifyTokenAndUser");
 
 // User registration / Sign up
 router.post("/register", async (req, res) => {
