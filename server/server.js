@@ -12,7 +12,7 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://e-commerce-website-zeta-seven.vercel.app/home"
+  "https://e-commerce-website-zeta-seven.vercel.app"
 ];
 
 const corsOptions = {
