@@ -1,5 +1,5 @@
 import LoadingPage from "./Loadingpage";
-import Header from "./header";
+import Header from "./Header"
 import HeroSection from "./HeroSection";
 import SpecialBanner from "./SpecialBanner";
 import DetailedProduct from "./DetailedProduct";

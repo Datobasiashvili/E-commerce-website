@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { UserContext } from "./App";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Header from "./header";
+import Header from "./Header";
 import {
   addProductToCart,
   deleteProductFromCart,

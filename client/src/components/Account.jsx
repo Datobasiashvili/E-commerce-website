@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import { UserContext } from "./App";
 import "../styles/account.css";
 import { useNavigate } from "react-router-dom";
-import Header from "./header";
+import Header from "./Header";
 
 export default function Account() {
   const navigate = useNavigate();
