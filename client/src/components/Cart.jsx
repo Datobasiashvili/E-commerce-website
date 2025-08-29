@@ -7,7 +7,7 @@ import {
   addProductToCart,
   deleteProductFromCart,
   decreaseCartProductQuantity,
-} from "../../../server/utils/cartAPI";
+} from  "../api/cartAPI";
 import LoadingPage from "./Loadingpage";
 import "../styles/cart.css";
 

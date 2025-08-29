@@ -7,7 +7,7 @@ import axios from "axios";
 import {
   addProductToCart,
   decreaseCartProductQuantity,
-} from "../../../server/utils/cartAPI";
+} from "../api/cartAPI";
 import { useNavigate } from "react-router-dom";
 import { useProducts } from "./ProductContext";
 import "../styles/home.css";
