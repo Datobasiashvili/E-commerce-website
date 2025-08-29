@@ -1,17 +1,28 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const cookieParser = require("cookie-parser")
+const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
 const authRoutes = require("./routes/authRoutes");
 const cartRoutes = require("./routes/cartRoutes");
-const productRoutes = require("./routes/productRoutes")
+const productRoutes = require("./routes/productRoutes");
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://e-commerce-website-xzn7-lwq8ay97r-datobasiashvilis-projects.vercel.app",
+];
+
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
 };
 
@@ -27,7 +38,6 @@ app.use("/api", productRoutes);
 app.get("/", (req, res) => {
   res.send("Server is running!");
 });
-
 
 const MONGOURL = process.env.MONGO_URL;
 mongoose
