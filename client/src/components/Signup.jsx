@@ -5,6 +5,7 @@ import { UserContext } from "./App";
 import axios from "axios";
 import signupImg from "../images/signup-image.jpg";
 import GoBackBtn from "./GoBackBtn";
+import { Link } from "react-router-dom";
 import "../styles/signup.css";
 
 export default function Signup() {
@@ -66,7 +67,7 @@ export default function Signup() {
 
   return (
     <>
-      <GoBackBtn  customNavigate={"/home"}/>
+      <GoBackBtn customNavigate={"/home"} />
       <div className="signup-page">
         <div className="signup-box">
           {/* Left side - Form */}
@@ -187,9 +188,9 @@ export default function Signup() {
             <div className="signup-footer">
               <p>
                 Already have an account?{" "}
-                <a href="/login" className="login-link">
+                <Link to="/login" className="login-link">
                   Log in
-                </a>
+                </Link>
               </p>
             </div>
           </div>
