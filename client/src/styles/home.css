@@ -11,10 +11,10 @@ html {
   margin: 0 auto;
 }
 
-#span-title {
-  color: rgb(60, 60, 210);
+.category-title {
+ color: rgb(60, 60, 210);
   font-family: "Poppins", sans-serif;
-  font-weight: 1000;
+  font-weight: 750;
   font-size: 35px;
 }
 
@@ -90,4 +90,61 @@ html {
 
 .add-btn:hover {
   background: #8be0ac;
+}
+
+.home-quantity-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #cffade;
+  border: none;
+  color: #111;
+  font-size: 22px;
+  font-weight: bold;
+  width: 100%;
+  height: 42px;
+  cursor: pointer;
+  border-radius: 0 0 12px 12px;
+  transition: all 0.3s ease;
+  font-family: "Roboto", sans-serif;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+.home-quantity-controls:hover {
+  background: #8be0ac;
+  transform: translateY(-1px);
+}
+
+.increase-quantity-btn,
+.decrease-quantity-btn {
+  background: transparent;
+  border: 2px solid #303030;
+  padding: 5px;
+  color: #111;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.increase-quantity-btn:hover,
+.decrease-quantity-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+  transform: scale(1.1);
+}
+
+#home-product-quantity {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #003366;
+  min-width: 20px;
+  text-align: center;
 }

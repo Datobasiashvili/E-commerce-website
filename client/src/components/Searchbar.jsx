@@ -14,13 +14,14 @@ export default function Searchbar() {
     setSearchQuery(query);
   };
 
-  const filteredProducts = searchQuery
-    ? products.filter(
-        (p) =>
-          p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          p.brand?.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : [];
+  const filteredProducts =
+    searchQuery && products.length
+      ? products.filter(
+          (p) =>
+            p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            p.brand?.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      : [];
 
   const handleFocus = () => {
     setIsFocused(true);

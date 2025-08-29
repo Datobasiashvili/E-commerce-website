@@ -1,16 +1,19 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import LoadingPage from "./Loadingpage";
 import { addProductToCart } from "../../../server/utils/cartAPI";
 import axios from "axios";
 import GoBackBtn from "./GoBackBtn";
+import { UserContext } from "./App";
 import "../styles/product.css";
 
 export default function Product() {
   const [product, setProduct] = useState([]);
+  const { isAuthenticated } = useContext(UserContext);
   const { productId } = useParams();
   const [imgThumbnail, setImgThumbnail] = useState(null);
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -50,6 +53,13 @@ export default function Product() {
       }, 3000);
       setTimeout(() => setMessage(""), 3500);
     }
+  };
+
+  const handleNavigate = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    navigate("/signup");
   };
 
   if (!product) {
@@ -92,6 +102,9 @@ export default function Product() {
           {product.category && (
             <p className="sp-product-category">Category: {product.category}</p>
           )}
+          {product.sellerName && (
+            <p className="sp-product-sellerName">By: {product.sellerName}</p>
+          )}
           {product.category !== "groceries" && product.rating && (
             <p className="sp-product-rating">Rating: {product.rating} ⭐</p>
           )}
@@ -106,7 +119,15 @@ export default function Product() {
           {message && <p className="sp-message">{message}</p>}
 
           <div className="sp-buttons">
-            <button onClick={(e) => handleAddProduct(e, product)}>
+            <button
+              onClick={(e) => {
+                if (isAuthenticated) {
+                  handleAddProduct(e, product);
+                } else {
+                  handleNavigate(e);
+                }
+              }}
+            >
               Add to cart{" "}
               <svg
                 xmlns="http://www.w3.org/2000/svg"

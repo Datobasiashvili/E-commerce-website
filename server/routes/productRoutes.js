@@ -48,7 +48,7 @@ router.post("/products", verifyTokenAndUser, async (req, res) => {
       thumbnail,
       dimensions: [],
       sellerId: user._id,
-      email: user.email
+      sellerName: user.name
     });
 
     return res.status(201).json(doc);

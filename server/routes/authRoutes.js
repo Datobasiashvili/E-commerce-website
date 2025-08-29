@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user_model");
 const generateToken = require("../utils/generateToken");
-const verifyTokenAndUser = require("../middleware/verifyTokenAndUser");
+
 
 // User registration / Sign up
 router.post("/register", async (req, res) => {

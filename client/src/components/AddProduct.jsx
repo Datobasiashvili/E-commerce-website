@@ -229,6 +229,18 @@ export default function AddProduct() {
     </>
   ) : (
     <>
+      <button className="preview-back-btn" onClick={() => setPreview(false)}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="18px"
+          fill="#000000ff"
+        >
+          <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
+        </svg>
+        Go back
+      </button>
       <div className="preview-product-container">
         <div className="preview-product-images">
           <img
@@ -264,6 +276,9 @@ export default function AddProduct() {
               Category: {form.category}
             </p>
           )}
+          {form.sellerName && (
+            <p className="preview-product-sellerName">By: {form.sellerName}</p>
+          )}
           {form.category !== "groceries" && form.rating && (
             <p className="preview-product-rating">Rating: {form.rating} ⭐</p>
           )}
@@ -295,7 +310,6 @@ export default function AddProduct() {
       </div>
 
       <div className="preview-action-btn">
-        <button onClick={() => setPreview(false)}>Go back</button>
         <button type="button" onClick={handleSubmit}>
           Add Product
         </button>

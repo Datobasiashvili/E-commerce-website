@@ -18,22 +18,6 @@ import AddProduct from "./AddProduct.jsx";
 import { useState, useEffect, createContext } from "react";
 import axios from "axios";
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <>
-      <Route path="/" element={<Navigate to="/home" />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/account" element={<Account />} />
-      <Route path="/cart" element={<Cart />} />
-      <Route path="/favorites" element={<Favorites />} />
-      <Route path="/products/:productId" element={<Product />} />
-      <Route path="/product/add" element={<AddProduct />} />
-    </>
-  )
-);
-
 export const UserContext = createContext();
 
 function App() {
@@ -45,7 +29,7 @@ function App() {
     fetch("http://localhost:5000/api/products")
       .then((res) => res.json())
       .then((data) => {
-        setProductData(data)
+        setProductData(data);
       })
       .catch((err) => console.error("Error fetching products:", err));
   }, []);
@@ -63,6 +47,22 @@ function App() {
         setIsAuthenticated(false);
       });
   }, []);
+
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <>
+        <Route path="/" element={<Navigate to="/home" />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/account" element={<Account />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/favorites" element={<Favorites />} />
+        <Route path="/products/:productId" element={<Product />} />
+        <Route path="/product/add" element={<AddProduct />} />
+      </>
+    )
+  );
 
   return (
     <ProductContext.Provider value={{ productData, setProductData }}>

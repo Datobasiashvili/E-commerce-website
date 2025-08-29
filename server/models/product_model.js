@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+//We'll add a review system later
 const reviewSchema = new mongoose.Schema({
   rating: {
     type: Number,
@@ -45,6 +46,7 @@ const productSchema = new mongoose.Schema(
     rating: Number,
     reviews: [reviewSchema],
     stock: Number,
+    sellerName: String,
     sellerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

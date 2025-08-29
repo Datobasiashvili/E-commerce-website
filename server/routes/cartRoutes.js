@@ -1,7 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/user_model");
-const jwt = require("jsonwebtoken");
 const verifyTokenAndUser = require("../middleware/verifyTokenAndUser");
 
 //Add products to the cart or increase their quantity
