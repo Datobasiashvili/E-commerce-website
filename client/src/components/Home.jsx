@@ -24,7 +24,7 @@ export default function Home() {
   const getCart = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/cart/products",
+        "https://e-commerce-website-47sr.onrender.com/api/products",
         {
           withCredentials: true,
         }

@@ -26,7 +26,7 @@ function App() {
   const [productData, setProductData] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/products")
+    fetch("https://e-commerce-website-47sr.onrender.com/api/products")
       .then((res) => res.json())
       .then((data) => {
         setProductData(data);
@@ -36,7 +36,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/account", { withCredentials: true })
+      .get("https://e-commerce-website-47sr.onrender.com/api/account", { withCredentials: true })
       .then((res) => {
         setUser(res.data.user);
         setIsAuthenticated(res.data.isAuthenticated);

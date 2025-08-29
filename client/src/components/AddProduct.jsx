@@ -54,7 +54,7 @@ export default function AddProduct() {
       };
 
       const response = await axios.post(
-        "http://localhost:5000/api/products",
+        "https://e-commerce-website-47sr.onrender.com/api/products",
         payload,
         { withCredentials: true }
       );

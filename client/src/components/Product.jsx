@@ -17,7 +17,7 @@ export default function Product() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/products/${productId}`)
+      .get(`https://e-commerce-website-47sr.onrender.com/api/products/${product._id}`)
       .then((res) => {
         setProduct(res.data);
         res.data.images[0] && setImgThumbnail(res.data.images[0]);

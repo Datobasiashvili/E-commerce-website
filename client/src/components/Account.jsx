@@ -28,7 +28,7 @@ export default function Account() {
     setUser({});
     setIsAuthenticated(false);
 
-    fetch("http://localhost:5000/api/logout", {
+    fetch("https://e-commerce-website-47sr.onrender.com/api/logout", {
       method: "POST",
       credentials: "include",
     })
