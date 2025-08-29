@@ -24,6 +24,11 @@ app.use("/api", authRoutes);
 app.use("/api", cartRoutes);
 app.use("/api", productRoutes);
 
+app.get("/", (req, res) => {
+  res.send("Server is running!");
+});
+
+
 const MONGOURL = process.env.MONGO_URL;
 mongoose
   .connect(MONGOURL)
