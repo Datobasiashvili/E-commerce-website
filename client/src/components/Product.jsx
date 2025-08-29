@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import LoadingPage from "./Loadingpage";
-import { addProductToCart } from "../../../server/utils/cartAPI";
+import { addProductToCart } from "../api/cartAPI";
 import axios from "axios";
 import GoBackBtn from "./GoBackBtn";
 import { UserContext } from "./App";
