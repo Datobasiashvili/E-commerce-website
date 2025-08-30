@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 // Middleware to verify token and fetch user
 const verifyTokenAndUser = async (req, res, next) => {
   const token = req.cookies.token;
+  console.log("USER TOKEN:")
+  console.log(token);
 
   if (!token) {
     return res.status(401).json({

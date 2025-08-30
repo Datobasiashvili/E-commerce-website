@@ -17,7 +17,9 @@ export default function Product() {
 
   useEffect(() => {
     axios
-      .get(`https://e-commerce-website-47sr.onrender.com/api/products/${productId}`)
+      .get(
+        `https://e-commerce-website-47sr.onrender.com/api/products/${productId}`
+      )
       .then((res) => {
         setProduct(res.data);
         res.data.images[0] && setImgThumbnail(res.data.images[0]);
@@ -116,7 +118,17 @@ export default function Product() {
           )}
 
           {/* Display the message */}
-          {message && <p className="sp-message">{message}</p>}
+          {message && (
+            <p
+              className={
+                message === "Failed to add product"
+                  ? "sp-message"
+                  : "sp-err-message"
+              }
+            >
+              {message}
+            </p>
+          )}
 
           <div className="sp-buttons">
             <button
