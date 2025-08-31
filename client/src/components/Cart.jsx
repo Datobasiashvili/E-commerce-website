@@ -73,7 +73,6 @@ export default function Cart() {
     try {
       const response = await decreaseCartProductQuantity(productId);
       if (response.status === 200) {
-        console.log(response.data.message);
         getCart();
       }
     } catch (err) {
