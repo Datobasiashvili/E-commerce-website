@@ -21,15 +21,15 @@ export default function Home() {
   const getCart = async () => {
     try {
       const response = await axios.get(
-        "https://e-commerce-website-47sr.onrender.com/api/products",
+        "https://e-commerce-website-47sr.onrender.com/api/cart/products",
         {
           withCredentials: true,
         }
       );
 
       if (response.status === 200) {
-        setCartProducts([...response.data.cartProducts]);
-
+        setCartProducts(() => response.data.cartProducts);
+        console.log(response.data.cartProducts)
       }
     } catch (err) {
       console.error(err.response?.data || err.message);
