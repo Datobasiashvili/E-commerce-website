@@ -12,7 +12,7 @@ import Signup from "./Signup.jsx";
 import Login from "./Login.jsx";
 import Account from "./Account.jsx";
 import Cart from "./Cart.jsx";
-import Favorites from "./Favorites.jsx";
+import Wishlist from "./Wishlist.jsx";
 import Product from "./Product.jsx";
 import AddProduct from "./AddProduct.jsx";
 import { useState, useEffect, createContext } from "react";
@@ -57,7 +57,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/account" element={<Account />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/favorites" element={<Favorites />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/products/:productId" element={<Product />} />
         <Route path="/product/add" element={<AddProduct />} />
       </>

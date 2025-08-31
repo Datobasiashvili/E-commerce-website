@@ -7,6 +7,7 @@ require("dotenv").config();
 const authRoutes = require("./routes/authRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const productRoutes = require("./routes/productRoutes");
+const wishlistRoutes = require("./routes/wishlistRoutes");
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use(cookieParser());
 app.use("/api", authRoutes);
 app.use("/api", cartRoutes);
 app.use("/api", productRoutes);
+app.use("/api", wishlistRoutes);
 
 app.get("/", (req, res) => {
   res.send("Server is running!");

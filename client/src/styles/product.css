@@ -207,9 +207,9 @@
   opacity: 0;
 }
 
-.sp-err-mesage {
+.sp-err-message {
   padding: 1rem 1.5rem;
-  background: #b91010;
+  background: #d01919;
   color: white;
   border-radius: 10px;
   font-weight: 500;
@@ -311,7 +311,6 @@
   
   .sp-main-image {
     height: 300px;
-    padding: 1.5rem;
   }
   
   .sp-product-title {

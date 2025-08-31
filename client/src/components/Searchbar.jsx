@@ -58,7 +58,7 @@ export default function Searchbar() {
               <div className="results-list">
                 {filteredProducts.map((product) => (
                   <div
-                    key={product.id}
+                    key={product._id}
                     className="filteredProduct-result"
                     onClick={() => navigate(`/products/${product._id}`)}
                   >

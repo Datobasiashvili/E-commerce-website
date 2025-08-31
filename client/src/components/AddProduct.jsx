@@ -278,7 +278,7 @@ export default function AddProduct() {
             </p>
           )}
           {form.sellerName && (
-            <p className="preview-product-sellerName">By: {form.sellerName}</p>
+            <p className="preview-product-sellerName">Seller: {form.sellerName}</p>
           )}
           {form.category !== "groceries" && form.rating && (
             <p className="preview-product-rating">Rating: {form.rating} ⭐</p>

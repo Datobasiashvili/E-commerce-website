@@ -1,15 +1,17 @@
+import { useContext, useState, useEffect } from "react";
+import { useProducts } from "./ProductContext";
+import { UserContext } from "./App";
+import axios from "axios";
+import { addProductToCart, decreaseCartProductQuantity } from "../api/cartAPI";
+import { addToWishlist } from "../api/wishlistAPI";
+
 import LoadingPage from "./Loadingpage";
 import Header from "./Header";
 import HeroSection from "./HeroSection";
 import SpecialBanner from "./SpecialBanner";
 import DetailedProduct from "./DetailedProduct";
-import axios from "axios";
-import { addProductToCart, decreaseCartProductQuantity } from "../api/cartAPI";
 import { useNavigate } from "react-router-dom";
-import { useProducts } from "./ProductContext";
 import "../styles/home.css";
-import { useContext, useState, useEffect } from "react";
-import { UserContext } from "./App";
 
 export default function Home() {
   const productsContext = useProducts();
@@ -29,7 +31,6 @@ export default function Home() {
 
       if (response.status === 200) {
         setCartProducts(() => response.data.cartProducts);
-        console.log(response.data.cartProducts)
       }
     } catch (err) {
       console.error(err.response?.data || err.message);
@@ -112,6 +113,19 @@ export default function Home() {
     return item ? item.quantity : 0;
   };
 
+  const handleAddToWishlist = async (e, productId) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      const response = await addToWishlist(productId);
+      if (response.status === 200) {
+        console.log(response.data.message)
+      }
+    } catch (err) {
+      console.error(`Error during adding the product: ${err}`);
+    }
+  }
+
   const handleNavigate = (e) => {
     e.stopPropagation();
     e.preventDefault();
@@ -141,6 +155,7 @@ export default function Home() {
                     key={product._id}
                     onClick={() => navigate(`/products/${product._id}`)}
                   >
+                    <button onClick={(e) => handleAddToWishlist(e, product._id)}>Add to wishlist</button>
                     <img
                       src={product.images[0] || product.thumbnail}
                       alt={product.title}

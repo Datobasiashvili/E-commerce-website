@@ -13,6 +13,7 @@ export default function Product() {
   const { productId } = useParams();
   const [imgThumbnail, setImgThumbnail] = useState(null);
   const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,6 +36,7 @@ export default function Product() {
       const response = await addProductToCart(product);
       if (response.status === 200) {
         setMessage(response.data.message);
+        setMessageType("success");
 
         // Fade out after 3 seconds
         setTimeout(() => {
@@ -49,6 +51,7 @@ export default function Product() {
       }
     } catch (err) {
       setMessage("Failed to add product");
+      setMessageType("error");
       setTimeout(() => {
         const messageElement = document.querySelector(".sp-message");
         if (messageElement) messageElement.classList.add("fade-out");
@@ -105,7 +108,9 @@ export default function Product() {
             <p className="sp-product-category">Category: {product.category}</p>
           )}
           {product.sellerName && (
-            <p className="sp-product-sellerName">By: {product.sellerName}</p>
+            <p className="sp-product-sellerName">
+              Seller: {product.sellerName}
+            </p>
           )}
           {product.category !== "groceries" && product.rating && (
             <p className="sp-product-rating">Rating: {product.rating} ⭐</p>
@@ -121,9 +126,7 @@ export default function Product() {
           {message && (
             <p
               className={
-                message === "Failed to add product"
-                  ? "sp-message"
-                  : "sp-err-message"
+                messageType === "success" ? "sp-message" : "sp-err-message"
               }
             >
               {message}

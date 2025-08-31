@@ -16,6 +16,10 @@ const userSchema = mongoose.Schema({
   },
   cart: {
     type: Array,
+    default: []
+  },
+  wishlist: {
+    type: [String]
   },
   lastLogin: {
     type: Date,
