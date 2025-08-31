@@ -2,14 +2,14 @@ import axios from "axios";
 
 export const addProductToCart = async (product) => {
   return await axios.post(
-    "http://localhost:5000/api/cart/add",
+    "https://e-commerce-website-47sr.onrender.com/api/cart/add",
     { product },
     { withCredentials: true }
   );
 };
 
 export const deleteProductFromCart = async (product) => {
-  return await axios.delete("http://localhost:5000/api/cart/delete", {
+  return await axios.delete("https://e-commerce-website-47sr.onrender.com/api/cart/delete", {
     data: { product },
     withCredentials: true,
   });
@@ -17,7 +17,7 @@ export const deleteProductFromCart = async (product) => {
 
 export const decreaseCartProductQuantity = async (productId) => {
   return await axios.patch(
-    "http://localhost:5000/api/cart/decrease",
+    "https://e-commerce-website-47sr.onrender.com/api/cart/decrease",
     { productId },
     { withCredentials: true }
   );
