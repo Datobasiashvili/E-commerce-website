@@ -14,7 +14,7 @@ import { UserContext } from "./App";
 export default function Home() {
   const productsContext = useProducts();
   const products = productsContext?.productData || [];
-  const [cartProducts, setCartProducts] = useState();
+  const [cartProducts, setCartProducts] = useState([]);
   const { isAuthenticated } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -28,7 +28,8 @@ export default function Home() {
       );
 
       if (response.status === 200) {
-        setCartProducts(() => response.data.cartProducts);
+        setCartProducts([...response.data.cartProducts]);
+
       }
     } catch (err) {
       console.error(err.response?.data || err.message);

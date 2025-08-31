@@ -145,6 +145,7 @@ export default function AddProduct() {
                   <option value="sports">Sports</option>
                   <option value="beauty">Beauty</option>
                   <option value="furniture">Furniture</option>
+                  <option value="fragrances">Fragrances</option>
                 </select>
               </div>
 
