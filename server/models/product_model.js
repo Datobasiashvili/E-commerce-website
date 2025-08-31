@@ -37,7 +37,11 @@ const productSchema = new mongoose.Schema(
     category: String,
     warrantyInformation: String,
     thumbnail: String,
-    images: [String],
+    images: {
+      type: [String],
+      default: [],
+      required: true,
+    },
     dimensions: {
       width: Number,
       height: Number,

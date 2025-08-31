@@ -12,7 +12,7 @@ export default function DetailedProduct({ product }) {
           <div className="dp-image-slider">
             {/* Image slider would go here */}
             <img
-              src={product.images[0]}
+              src={product.images[0] || product.thumbnail || ""}
               alt={product.title}
               className="dp-product-image"
             />
