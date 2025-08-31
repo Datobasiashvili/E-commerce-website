@@ -1,13 +1,10 @@
 import LoadingPage from "./Loadingpage";
-import Header from "./Header"
+import Header from "./Header";
 import HeroSection from "./HeroSection";
 import SpecialBanner from "./SpecialBanner";
 import DetailedProduct from "./DetailedProduct";
 import axios from "axios";
-import {
-  addProductToCart,
-  decreaseCartProductQuantity,
-} from "../api/cartAPI";
+import { addProductToCart, decreaseCartProductQuantity } from "../api/cartAPI";
 import { useNavigate } from "react-router-dom";
 import { useProducts } from "./ProductContext";
 import "../styles/home.css";
@@ -16,7 +13,7 @@ import { UserContext } from "./App";
 
 export default function Home() {
   const productsContext = useProducts();
-  const products = productsContext?.productData || []; 
+  const products = productsContext?.productData || [];
   const [cartProducts, setCartProducts] = useState();
   const { isAuthenticated } = useContext(UserContext);
   const navigate = useNavigate();
@@ -50,7 +47,7 @@ export default function Home() {
     try {
       const response = await addProductToCart(product);
       if (response.status === 200) {
-        getCart()
+        getCart();
       }
     } catch (err) {
       console.error(`Error during adding the product: ${err}`);
@@ -185,12 +182,11 @@ export default function Home() {
                         </button>
                       </div>
                     )}
-
                   </div>
                 ))}
               </div>
 
-              {rowIndex === 1 && (
+              {rowIndex === 1 && groupedProducts[category][11] && (
                 <DetailedProduct product={groupedProducts[category][11]} />
               )}
               {rowIndex === 3 && <SpecialBanner />}
