@@ -12,7 +12,7 @@ export default function Wishlist() {
 
   const getWishlist = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/wishlist", {
+      const response = await axios.get("https://e-commerce-website-47sr.onrender.com/api/wishlist", {
         withCredentials: true,
       });
 
@@ -28,7 +28,7 @@ export default function Wishlist() {
   };
 
   useEffect(() => {
-    getWishlist()
+    getWishlist();
   }, [])
 
   return (
