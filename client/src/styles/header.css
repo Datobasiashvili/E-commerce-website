@@ -4,11 +4,12 @@
   left: 0;
   right: 0;
   z-index: 1000; 
-  height: 120px;
+  height: auto;
   background: #e3e5e7; 
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 10px 0;
 }
 
 .header-component {
@@ -21,7 +22,7 @@
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
   min-height: 64px;
   border-radius: 20px;
-  width: 85%; 
+  width: 90%; 
   max-width: 1200px;
   transition: all 0.3s ease-in-out;
   position: relative;
@@ -37,6 +38,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 #menu-button:hover {
@@ -61,6 +63,7 @@
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .logo::before {
@@ -137,6 +140,7 @@
   align-items: center;
   gap: 12px;
   margin-left: auto;
+  flex-shrink: 0;
 }
 
 /* NavLink styles */
@@ -152,6 +156,7 @@
   justify-content: center;
   position: relative;
   text-decoration: none;
+  flex-shrink: 0;
 }
 
 /* Normal state for NavLinks */
@@ -196,15 +201,21 @@
   transform: scale(1.1);
 }
 
-/* Responsive Design */
+/* Mobile-first responsive design */
 @media (max-width: 768px) {
+  .header-wrapper {
+    padding: 8px 0;
+  }
+  
   .header-component {
-    padding: 10px 16px;
-    gap: 12px;
+    padding: 10px 15px;
+    gap: 10px;
+    width: 95%; /* Even wider on mobile */
+    border-radius: 16px;
   }
 
   .header-component > p {
-    display: none;
+    display: none; /* Hide promo text on mobile */
   }
 
   #logo-title {
@@ -214,19 +225,62 @@
   .header-icons {
     gap: 8px;
   }
+  
+  /* Ensure all icons are visible on mobile */
+  .header-icons a {
+    padding: 6px;
+  }
+  
+  .header-icons a svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  /* Adjust logo for mobile */
+  .logo {
+    padding: 6px 8px;
+  }
 }
 
 @media (max-width: 480px) {
   .header-component {
-    gap: 8px;
+    gap: 6px;
+    padding: 8px 12px;
   }
 
   .logo {
-    gap: 6px;
-    padding: 6px 8px;
+    gap: 4px;
+    padding: 4px 6px;
   }
 
   #logo-title {
     font-size: 16px;
+  }
+  
+  /* Make sure search container doesn't push icons off screen */
+  .search-container {
+    min-width: 40px; /* Allow it to collapse to icon only */
+    flex: 0 1 auto; /* Don't let it grow too much */
+  }
+  
+  /* Hide search bar text on very small screens */
+  #searchbar {
+    padding: 10px 12px;
+  }
+  
+  #searchbar::placeholder {
+    color: transparent; /* Hide placeholder text on small screens */
+  }
+}
+
+/* Medium screens (tablets) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .header-component {
+    padding: 12px 20px;
+    gap: 15px;
+  }
+  
+  .header-component > p {
+    font-size: 13px; /* Slightly smaller text */
   }
 }
