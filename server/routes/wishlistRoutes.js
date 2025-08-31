@@ -34,6 +34,8 @@ router.post("/wishlist", verifyTokenAndUser, async (req, res) => {
   }
 });
 
+
+//Gettin user's wishlist products
 router.get("/wishlist", verifyTokenAndUser, async (req, res) => {
   try {
     const user = req.user;
@@ -52,5 +54,27 @@ router.get("/wishlist", verifyTokenAndUser, async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 });
+
+//Deleting user's wishlist product
+router.delete("/wishlist", verifyTokenAndUser, async (req, res) => {
+   try {
+    const user = req.user;
+    const { productId } = req.body;
+    user.wishlist = user.wishlist.filter(
+      (item) => item._id !== productId
+    );
+    await user.save();
+
+    res.status(200).json({
+      message: "Product removed from wishlist successfully",
+      wishlist: user.wishlist,
+    });
+    
+  } catch (err) {
+    console.error(`Error: ${err}`);
+    res.status(500).json({ success: false, message: "Server error while removing the product from wishlist." });
+  }
+
+})
 
 module.exports = router;
