@@ -17,7 +17,7 @@ export default function Wishlist() {
 
   // Redirect if user not logged in
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isAuthenticated && !user) {
       navigate("/signup");
     }
   }, [isAuthenticated, navigate]);

@@ -13,9 +13,16 @@ import "../styles/cart.css";
 
 export default function Cart() {
   const [cartProducts, setCartProducts] = useState([]);
-  const { user } = useContext(UserContext);
+  const { user, isAuthenticated } = useContext(UserContext);
 
   const navigate = useNavigate();
+
+  // Redirect if user not logged in
+    useEffect(() => {
+      if (!isAuthenticated && !user) {
+        navigate("/signup");
+      }
+    }, [isAuthenticated, navigate]);
 
   const getCart = async () => {
     try {
