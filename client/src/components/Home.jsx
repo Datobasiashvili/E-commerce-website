@@ -178,7 +178,9 @@ export default function Home() {
                     onClick={() => navigate(`/products/${product._id}`)}
                   >
                     <button
-                      onClick={(e) => handleAddToWishlist(e, product._id)}
+                      onClick={(e) => {
+                        isAuthenticated ? handleAddToWishlist(e, product._id) : handleNavigate(e);
+                      }}
                       className={`wishlist-btn ${
                         wishlistIds.includes(product._id)
                           ? "wishlist-active"
