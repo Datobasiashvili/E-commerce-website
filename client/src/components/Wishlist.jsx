@@ -49,7 +49,6 @@ export default function Wishlist() {
       const response = await removeFromWishlist(productId);
       if (response.status === 200) {
         console.log(response.data.message);
-        console.log(response.data)
         setProductIds((prev) => prev.filter((id) => id.toString() !== productId.toString()));
       }
     } catch (err) {
@@ -92,7 +91,7 @@ export default function Wishlist() {
             <h1>Your Wishlist, {user?.name}!</h1>
             <div className="wishlist-grid">
               {wishlistProducts.map((product) => (
-                <div key={product._id} className="wishlist-item">
+                <div key={product._id} className="wishlist-item" onClick={() => navigate(`/products/${product._id}`)}>
                   <img src={product.images[0]} alt={product.title} />
                   <div className="wishlist-info">
                     <h3>{product.title}</h3>

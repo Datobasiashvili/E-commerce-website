@@ -26,6 +26,7 @@ html {
 }
 
 .product-card {
+  position: relative;
   background: #fff;
   border-radius: 14px;
   padding: 25px 15px;
@@ -41,6 +42,47 @@ html {
   cursor: pointer;
   transform: translateY(-4px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.wishlist-btn {
+  position: absolute;
+  background-color: white;
+  top: 10px;
+  right: 10px;
+  fill: rgba(226, 42, 42, 0.8);
+  border: 1px solid rgb(242, 242, 242);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 100;
+}
+.product-card .wishlist-btn svg {
+  fill: rgba(226, 42, 42, 0.8);
+  transition: fill 0.3s ease;
+}
+
+.product-card .wishlist-btn:hover {
+  background: #ff5252;
+  transform: scale(1.1);
+}
+
+.product-card .wishlist-btn:hover svg{
+  fill: white;
+}
+
+
+.product-card .wishlist-btn.wishlist-active {
+  background: #ff5252;
+  border: none;
+}
+
+.product-card .wishlist-btn.wishlist-active svg {
+  fill: white;
 }
 
 .product-image {
