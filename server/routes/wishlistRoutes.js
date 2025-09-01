@@ -57,6 +57,7 @@ router.get("/wishlist", verifyTokenAndUser, async (req, res) => {
 
 //Deleting user's wishlist product
 router.delete("/wishlist", verifyTokenAndUser, async (req, res) => {
+  
    try {
     const user = req.user;
     const { productId } = req.body;
