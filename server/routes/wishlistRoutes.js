@@ -10,7 +10,7 @@ router.post("/wishlist", verifyTokenAndUser, async (req, res) => {
     if (!user.wishlist) user.wishlist = [];
 
     const existingWishlistProduct = user.wishlist.find(
-      (product) => product._id === productId
+      (id) => id.toString() === productId.toString()
     );
 
     if (existingWishlistProduct) {
@@ -56,13 +56,13 @@ router.get("/wishlist", verifyTokenAndUser, async (req, res) => {
 });
 
 //Deleting user's wishlist product
-router.delete("/wishlist", verifyTokenAndUser, async (req, res) => {
-  
+router.delete("/wishlist/:productId", verifyTokenAndUser, async (req, res) => {
+  console.log("Recieved body:", req.body);
    try {
     const user = req.user;
-    const { productId } = req.body;
+    const { productId } = req.params;
     user.wishlist = user.wishlist.filter(
-      (item) => item._id !== productId
+      (id) => id !== productId
     );
     await user.save();
 
