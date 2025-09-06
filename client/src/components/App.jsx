@@ -36,10 +36,17 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("https://e-commerce-website-47sr.onrender.com/api/account", { withCredentials: true })
+      .get("https://e-commerce-website-47sr.onrender.com/api/account", {
+        withCredentials: true,
+      })
       .then((res) => {
-        setUser(res.data.user);
-        setIsAuthenticated(res.data.isAuthenticated);
+        if (res.data.isAuthenticated) {
+          setUser(res.data.user);
+          setIsAuthenticated(true);
+        } else {
+          setUser({});
+          setIsAuthenticated(false);
+        }
       })
       .catch((err) => {
         console.error(`Error: ${err}`);

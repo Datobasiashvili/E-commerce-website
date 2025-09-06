@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user_model");
 const generateToken = require("../utils/generateToken");
 
-
 // User registration / Sign up
 router.post("/register", async (req, res) => {
   try {
@@ -101,7 +100,9 @@ router.post("/login", async (req, res) => {
 // Route that checks the cookie and sends the authenticated user to the frontend
 router.get("/account", async (req, res) => {
   const token = req.cookies.token;
-  if (!token) return res.status(401).json({ message: "Unauthorized" });
+  if (!token || token === "") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -120,7 +121,22 @@ router.get("/account", async (req, res) => {
 
 // Logout route
 router.post("/logout", (req, res) => {
-  res.clearCookie("token").json({ message: "Logged out" });
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production" ? true : false,
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    path: "/",
+  });
+
+  res.cookie("token", "", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production" ? true : false,
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    expires: new Date(0),
+    path: "/",
+  });
+
+  return res.status(200).json({ message: "Logged out successfully" });
 });
 
 module.exports = router;
