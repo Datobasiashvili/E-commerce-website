@@ -9,12 +9,14 @@ import { UserContext } from "./App";
 import "../styles/product.css";
 
 export default function Product() {
-  const [product, setProduct] = useState([]);
   const { isAuthenticated } = useContext(UserContext);
   const { productId } = useParams();
+  const [product, setProduct] = useState([]);
   const [imgThumbnail, setImgThumbnail] = useState(null);
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
+  const [comment, setComment] = useState("");
+  const [reviews, setReviews] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,6 +29,19 @@ export default function Product() {
         res.data.images[0] && setImgThumbnail(res.data.images[0]);
       })
       .catch((err) => console.error("Error:", err));
+  }, [productId]);
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://e-commerce-website-47sr.onrender.com/api/products/${productId}/reviews`, {
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        setReviews(res.data);
+      })
+      .catch((err) => console.error("Error fetching reviews:", err));
   }, [productId]);
 
   const handleAddProduct = async (e, product) => {
@@ -77,6 +92,8 @@ export default function Product() {
       console.error(`Error during adding the product: ${err}`);
     }
   };
+
+  const handleReviewSubmit = () => {};
 
   const handleNavigate = (e) => {
     e.stopPropagation();
@@ -185,6 +202,41 @@ export default function Product() {
             </button>
           </div>
         </div>
+
+        {isAuthenticated ? (
+          <>
+            <form onSubmit={handleReviewSubmit}>
+              <input
+                type="text"
+                id="comment"
+                placeholder="Add comment..."
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              />
+              <button type="submit">Submit</button>
+            </form>
+            <div className="sp-reviews">
+              {reviews && reviews.length > 0 ? (
+                reviews.map((review) => (
+                  <div key={review._id} className="sp-review-container">
+                    <p>
+                      <strong>{review.reviewer.name}</strong>
+                    </p>
+                    <p>Rating: {review.rating} / 5</p>
+                    <p>{review.comment}</p>
+                    <p className="review-date">
+                      {new Date(review.date).toLocaleDateString()}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <p>No reviews...</p>
+              )}
+            </div>
+          </>
+        ) : (
+          <h1>Hello world</h1>
+        )}
       </div>
     </>
   );

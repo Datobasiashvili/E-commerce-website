@@ -11,20 +11,19 @@ const reviewSchema = new mongoose.Schema({
   comment: {
     type: String,
     required: true,
+    minlength: 3,
+    maxlength: 500,
   },
   date: {
     type: Date,
     default: Date.now,
   },
-  reviewerName: {
-    type: String,
+  reviewer: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
     required: true,
   },
-  reviewerEmail: {
-    type: String,
-    required: true,
-    lowercase: true,
-  },
+  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
 });
 
 const productSchema = new mongoose.Schema(

@@ -23,4 +23,9 @@ const productSchema = Joi.object({
   thumbnail: Joi.string().uri().required(),
 });
 
-module.exports = { userSchema, productSchema };
+const reviewSchema = Joi.object({
+  comment: Joi.string().min(3).max(500).required(),
+  rating: Joi.number().integer().min(1).max(5),
+})
+
+module.exports = { userSchema, productSchema, reviewSchema };

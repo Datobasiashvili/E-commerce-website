@@ -38,6 +38,7 @@ app.use("/api", cartRoutes);
 app.use("/api", productRoutes);
 app.use("/api", wishlistRoutes);
 
+
 app.get("/", (req, res) => {
   res.send("Server is running!");
 });
