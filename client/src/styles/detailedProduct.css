@@ -1,0 +1,182 @@
+.dp-wrapper {
+  width: 100%;
+  padding: 20px 0;
+}
+
+.dp-container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.dp-promo-section {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.dp-discount-tag {
+  background: #ff6b81;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.dp-content {
+  display: flex;
+  gap: 30px;
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.dp-image-slider {
+  flex: 1;
+  min-height: 400px;
+  background: #f1f2f6;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.dp-product-image {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+.dp-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dp-brand-header h1 {
+  font-size: 1.8rem;
+  color: #2f3542;
+  margin-bottom: 5px;
+}
+
+.dp-title {
+  font-size: 1.4rem;
+  color: #2f3542;
+  margin: 0;
+}
+
+.dp-rating {
+  display: flex;
+  gap: 8px;
+  color: #ffa502;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.dp-price-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 8px 0;
+}
+
+.dp-price {
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: #2f3542;
+}
+
+.dp-stock {
+  color: #2ed573;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.dp-actions {
+  display: flex;
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.dp-cart-btn {
+  background: #3742fa;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.dp-cart-btn:hover {
+  transform: translateY(-2px);
+  background: #0f0fac;
+}
+
+.dp-wishlist-btn {
+  background: white;
+  color: #3742fa;
+  border: 1px solid #3742fa;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+}
+
+.dp-wishlist-btn:hover {
+  background: #f1f2f6;
+  transform: translateY(-2px);
+}
+
+.dp-meta {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin: 12px 0;
+  font-size: 0.9rem;
+}
+
+.dp-meta p {
+  margin: 4px 0;
+  color: #57606f;
+}
+
+.dp-description h3 {
+  font-size: 1.1rem;
+  margin: 12px 0 8px;
+  color: #2f3542;
+}
+
+.dp-description p {
+  color: #57606f;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .dp-content {
+    flex-direction: column;
+  }
+
+  .dp-promo-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
