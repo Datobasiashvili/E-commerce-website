@@ -1,8 +1,9 @@
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const addToWishlist = async (productId) => {
   return await axios.post(
-    "https://e-commerce-website-47sr.onrender.com/api/wishlist",
+    `${API_URL}/wishlist`,
     { productId },
     { withCredentials: true }
   );
@@ -10,7 +11,7 @@ export const addToWishlist = async (productId) => {
 
 export const removeFromWishlist = async (productId) => {
   return await axios.delete(
-    `https://e-commerce-website-47sr.onrender.com/api/wishlist/${productId}`,
+    `${API_URL}/wishlist/${productId}`,
     {
       withCredentials: true,
     }

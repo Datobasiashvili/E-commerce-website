@@ -8,13 +8,15 @@ const authRoutes = require("./routes/authRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const productRoutes = require("./routes/productRoutes");
 const wishlistRoutes = require("./routes/wishlistRoutes");
+const reviewRoutes = require("./routes/reviewRoutes");
 
 const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173",
   "https://e-commerce-website-zeta-seven.vercel.app",
-  "https://e-commerce-website-47sr.onrender.com"
+  "https://e-commerce-website-47sr.onrender.com",
+  "http://localhost:5000"
 ];
 
 const corsOptions = {
@@ -37,11 +39,8 @@ app.use("/api", authRoutes);
 app.use("/api", cartRoutes);
 app.use("/api", productRoutes);
 app.use("/api", wishlistRoutes);
+app.use("/api", reviewRoutes);
 
-
-app.get("/", (req, res) => {
-  res.send("Server is running!");
-});
 
 const MONGOURL = process.env.MONGO_URL;
 mongoose

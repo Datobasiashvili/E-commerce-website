@@ -1,6 +1,7 @@
 import "../styles/login.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useWishlist } from "../../hooks/useWishlist";
 import axios from "axios";
 import { useContext } from "react";
 import { UserContext } from "./App";
@@ -13,6 +14,10 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const { setIsAuthenticated, setUser } = useContext(UserContext);
   const navigate = useNavigate();
+
+  const { getWishlist } = useWishlist(); 
+
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,7 +32,7 @@ export default function Login() {
 
     try {
       const response = await axios.post(
-        "https://e-commerce-website-47sr.onrender.com/api/login",
+        `${API_URL}/login`,
         userData,
         {
           headers: {
@@ -41,6 +46,9 @@ export default function Login() {
         setUser(response.data.user);
         setIsAuthenticated(true);
         console.log("Logged in successfully");
+
+        await getWishlist();
+        
         setError(null);
         setEmail("");
         setPassword("");

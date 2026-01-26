@@ -1,23 +1,26 @@
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
 
-export const addProductToCart = async (product) => {
+export const addProductToCart = async (productId) => {
   return await axios.post(
-    "https://e-commerce-website-47sr.onrender.com/api/cart/add",
-    { product },
+    `${API_URL}/cart`,
+    { productId },
     { withCredentials: true }
   );
 };
 
-export const deleteProductFromCart = async (product) => {
-  return await axios.delete("https://e-commerce-website-47sr.onrender.com/api/cart/delete", {
-    data: { product },
-    withCredentials: true,
-  });
+export const deleteProductFromCart = async (productId) => {
+  return await axios.delete(
+    `${API_URL}/cart`,
+    {
+      data: { productId },
+      withCredentials: true,
+    });
 };
 
 export const decreaseCartProductQuantity = async (productId) => {
   return await axios.patch(
-    "https://e-commerce-website-47sr.onrender.com/api/cart/decrease",
+    `${API_URL}/cart`,
     { productId },
     { withCredentials: true }
   );

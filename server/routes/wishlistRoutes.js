@@ -10,7 +10,7 @@ router.post("/wishlist", verifyTokenAndUser, async (req, res) => {
     if (!user.wishlist) user.wishlist = [];
 
     const existingWishlistProduct = user.wishlist.find(
-      (id) => id.toString() === productId.toString()
+      (id) => id === productId
     );
 
     if (existingWishlistProduct) {
@@ -20,7 +20,7 @@ router.post("/wishlist", verifyTokenAndUser, async (req, res) => {
       });
     }
 
-    //We're saving only ID's in wishlist for less server lagging and displaying them on frontend after.
+    //We're saving only ID's in wishlist for less server lag.
     user.wishlist.push(productId);
     await user.save();
 
@@ -33,7 +33,6 @@ router.post("/wishlist", verifyTokenAndUser, async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
-
 
 //Gettin user's wishlist products
 router.get("/wishlist", verifyTokenAndUser, async (req, res) => {
@@ -57,7 +56,7 @@ router.get("/wishlist", verifyTokenAndUser, async (req, res) => {
 
 //Deleting user's wishlist product
 router.delete("/wishlist/:productId", verifyTokenAndUser, async (req, res) => {
-   try {
+  try {
     const user = req.user;
     const { productId } = req.params;
     user.wishlist = user.wishlist.filter(
@@ -69,12 +68,12 @@ router.delete("/wishlist/:productId", verifyTokenAndUser, async (req, res) => {
       message: "Product removed from wishlist successfully",
       wishlist: user.wishlist,
     });
-    
+
   } catch (err) {
-    console.error(`Error: ${err}`);
+    console.error('Adding to wishlist error:', err);
     res.status(500).json({ success: false, message: "Server error while removing the product from wishlist." });
   }
 
-})
+});
 
 module.exports = router;

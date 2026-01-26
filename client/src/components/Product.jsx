@@ -1,8 +1,12 @@
+import React from "react";
 import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import LoadingPage from "./Loadingpage";
-import { addProductToCart } from "../api/cartAPI";
+
 import { addToWishlist } from "../api/wishlistAPI";
+
+import { useCart } from "../../hooks/useCart";
+
 import axios from "axios";
 import GoBackBtn from "./GoBackBtn";
 import { UserContext } from "./App";
@@ -13,16 +17,19 @@ export default function Product() {
   const { productId } = useParams();
   const [product, setProduct] = useState([]);
   const [imgThumbnail, setImgThumbnail] = useState(null);
-  const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState("");
   const [comment, setComment] = useState("");
+  const [rating, setRating] = useState(0);
   const [reviews, setReviews] = useState([]);
+
+  const { handleAddToCart, cartMessage, cartMessageType } = useCart();
   const navigate = useNavigate();
+
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     axios
       .get(
-        `https://e-commerce-website-47sr.onrender.com/api/products/${productId}`
+        `${API_URL}/products/${productId}`
       )
       .then((res) => {
         setProduct(res.data);
@@ -31,50 +38,40 @@ export default function Product() {
       .catch((err) => console.error("Error:", err));
   }, [productId]);
 
+
   useEffect(() => {
-    axios
-      .get(
-        `https://e-commerce-website-47sr.onrender.com/api/products/${productId}/reviews`, {
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
+    const fetchReviews = async () => {
+      try {
+        const res = await axios.get(
+          `${API_URL}/products/${productId}/reviews`,
+          { withCredentials: true }
+        );
         setReviews(res.data);
-      })
-      .catch((err) => console.error("Error fetching reviews:", err));
+      } catch (err) {
+        console.error("Error fetching reviews:", err);
+      }
+    };
+
+    fetchReviews();
   }, [productId]);
 
-  const handleAddProduct = async (e, product) => {
-    e.preventDefault();
-    e.stopPropagation();
+  // const handleAddProduct = async (e, product) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
 
-    try {
-      const response = await addProductToCart(product);
-      if (response.status === 200) {
-        setMessage(response.data.message);
-        setMessageType("success");
+  //   const result = await handleAddToCart(product);
 
-        // Fade out after 3 seconds
-        setTimeout(() => {
-          const messageElement = document.querySelector(".sp-message");
-          if (messageElement) {
-            messageElement.classList.add("fade-out");
-          }
-        }, 3000);
+  //   setMessage(result.data.message);
+  //   setMessageType(result.success ? "success" : "error");
 
-        // Remove message after fade-out transition (0.5s)
-        setTimeout(() => setMessage(""), 3500);
-      }
-    } catch (err) {
-      setMessage("Failed to add product");
-      setMessageType("error");
-      setTimeout(() => {
-        const messageElement = document.querySelector(".sp-message");
-        if (messageElement) messageElement.classList.add("fade-out");
-      }, 3000);
-      setTimeout(() => setMessage(""), 3500);
-    }
-  };
+  //   setTimeout(() => {
+  //     const el = document.querySelector(".sp-message");
+  //     if (el) el.classList.add("fade-out");
+  //   }, 3000);
+
+  //   setTimeout(() => setMessage(""), 3500);
+  // };
+
 
   const handleAddToWishlist = async (e, productId) => {
     e.preventDefault();
@@ -93,7 +90,32 @@ export default function Product() {
     }
   };
 
-  const handleReviewSubmit = () => {};
+  const handleReviewSubmit = async (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        `${API_URL}/reviews/${productId}`,
+        {
+          comment,
+          rating
+        },
+        { withCredentials: true }
+      );
+      if (response.status === 201) {
+        console.log("Review added successfully");
+      }
+    } catch (err) {
+      if (err.response) {
+        console.error(err.response.data);
+      } else if (err.request) {
+        console.error(err.request);
+      } else {
+        console.error(err.message);
+      }
+    }
+  };
 
   const handleNavigate = (e) => {
     e.stopPropagation();
@@ -158,22 +180,25 @@ export default function Product() {
           )}
 
           {/* Display the message */}
-          {message && (
+          {cartMessage && (
             <p
               className={
-                messageType === "success" ? "sp-message" : "sp-err-message"
+                cartMessageType === "success" ? "sp-message" : "sp-err-message"
               }
             >
-              {message}
+              {cartMessage}
             </p>
           )}
 
           <div className="sp-buttons">
             <button
               onClick={(e) => {
-                if (isAuthenticated) {
-                  handleAddProduct(e, product);
-                } else {
+                e.preventDefault();
+                e.stopPropagation();
+
+                if(isAuthenticated){
+                  handleAddToCart(product)
+                } else{
                   handleNavigate(e);
                 }
               }}
@@ -204,38 +229,85 @@ export default function Product() {
         </div>
 
         {isAuthenticated ? (
-          <>
-            <form onSubmit={handleReviewSubmit}>
-              <input
-                type="text"
-                id="comment"
-                placeholder="Add comment..."
+          <div className="sp-reviews-section">
+            <h2 className="sp-reviews-title">Customer Reviews</h2>
+
+            <form className="sp-review-form" onSubmit={handleReviewSubmit}>
+              <h3>Write a Review</h3>
+
+              <textarea
+                className="sp-comment-input"
+                placeholder="Share your thoughts about this product..."
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
+                required
               />
-              <button type="submit">Submit</button>
+
+              <div className="sp-rating-container">
+                <div className="sp-star-rating">
+                  {[5, 4, 3, 2, 1].map((value) => (
+                    <React.Fragment key={value}>
+                      <input
+                        type="radio"
+                        id={`star${value}`}
+                        name="rating"
+                        value={value}
+                        checked={rating === value}
+                        onChange={() => setRating(value)}
+                        required
+                      />
+                      <label htmlFor={`star${value}`}>★</label>
+                    </React.Fragment>
+                  ))}
+                </div>
+              </div>
+
+              <button type="submit" className="sp-review-submit-btn">
+                Submit Review
+              </button>
             </form>
+
             <div className="sp-reviews">
               {reviews && reviews.length > 0 ? (
                 reviews.map((review) => (
                   <div key={review._id} className="sp-review-container">
-                    <p>
-                      <strong>{review.reviewer.name}</strong>
-                    </p>
-                    <p>Rating: {review.rating} / 5</p>
-                    <p>{review.comment}</p>
-                    <p className="review-date">
-                      {new Date(review.date).toLocaleDateString()}
+                    <div className="sp-review-header">
+                      <p className="sp-review-username">{review.username}</p>
+                      <div className="sp-review-rating">
+                        {"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}
+                        <span>({review.rating}/5)</span>
+                      </div>
+                    </div>
+                    <p className="sp-review-comment">{review.comment}</p>
+                    <p className="sp-review-date">
+                      {new Date(review.createdAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}
                     </p>
                   </div>
                 ))
               ) : (
-                <p>No reviews...</p>
+                <div className="sp-no-reviews">
+                  No reviews yet. Be the first to share your thoughts!
+                </div>
               )}
             </div>
-          </>
+          </div>
         ) : (
-          <h1>Hello world</h1>
+          <div className="sp-auth-required">
+            <h1>Sign in to leave a review</h1>
+            <p>Join the conversation and share your experience with this product</p>
+            <button className="sp-login-btn" onClick={handleNavigate}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                <polyline points="10 17 15 12 10 7" />
+                <line x1="15" y1="12" x2="3" y2="12" />
+              </svg>
+              Sign In / Sign Up
+            </button>
+          </div>
         )}
       </div>
     </>

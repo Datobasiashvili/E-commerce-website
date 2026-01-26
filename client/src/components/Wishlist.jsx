@@ -15,6 +15,8 @@ export default function Wishlist() {
   const products = productsContext?.productData || [];
   const navigate = useNavigate();
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   // Redirect if user not logged in
   useEffect(() => {
     if (!isAuthenticated && !user) {
@@ -26,7 +28,7 @@ export default function Wishlist() {
   const getWishlist = async () => {
     try {
       const response = await axios.get(
-        "https://e-commerce-website-47sr.onrender.com/api/wishlist",
+        `${API_URL}/wishlist`,
         { withCredentials: true }
       );
 

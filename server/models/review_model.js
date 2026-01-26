@@ -1,0 +1,44 @@
+const mongoose = require("mongoose");
+
+const reviewSchema = new mongoose.Schema(
+  {
+    productId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+      required: true,
+      index: true
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true
+    },
+    username: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    comment: {
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 5,
+      maxlength: 1000
+    },
+    rating: {
+      type: Number,
+      required: true,
+      min: 1,
+      max: 5
+    },
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }]
+  },
+  { timestamps: true }
+);
+
+// One review per user per product
+reviewSchema.index({ productId: 1, userId: 1 }, { unique: true });
+
+const reviewModel = mongoose.model("review", reviewSchema);
+module.exports = reviewModel;
