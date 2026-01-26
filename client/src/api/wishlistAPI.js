@@ -14,6 +14,6 @@ export const removeFromWishlist = async (productId) => {
     `${API_URL}/wishlist/${productId}`,
     {
       withCredentials: true,
-    }
-  );
-};
+    });
+
+}

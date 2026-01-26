@@ -9,8 +9,11 @@ export default function Account() {
   const { user, setUser, isAuthenticated, setIsAuthenticated } =
     useContext(UserContext);
 
+<<<<<<< HEAD
   const API_URL = import.meta.env.VITE_API_URL;
 
+=======
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
   useEffect(() => {
     if (!isAuthenticated) {
       navigate("/home");
@@ -30,11 +33,18 @@ export default function Account() {
     setUser({});
     setIsAuthenticated(false);
 
+<<<<<<< HEAD
     fetch(`${API_URL}/logout`,
       {
         method: "POST",
         credentials: "include",
       })
+=======
+    fetch("https://e-commerce-website-47sr.onrender.com/api/logout", {
+      method: "POST",
+      credentials: "include",
+    })
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
       .then(() => console.log("Logged out successfully!"))
       .catch((err) => console.error(`Error: ${err}`));
 
@@ -56,7 +66,6 @@ export default function Account() {
               Welcome to your account dashboard
             </p>
           </div>
-
 
 
           <div className="account-info">

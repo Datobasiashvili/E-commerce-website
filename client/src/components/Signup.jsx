@@ -19,8 +19,11 @@ export default function Signup() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
 
+<<<<<<< HEAD
   const API_URL = import.meta.env.VITE_API_URL;
 
+=======
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
   const handleRegister = async (e) => {
     e.preventDefault();
 
@@ -37,7 +40,11 @@ export default function Signup() {
 
     try {
       const response = await axios.post(
+<<<<<<< HEAD
         `${API_URL}/register`,
+=======
+        "https://e-commerce-website-47sr.onrender.com/api/register",
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
         userData,
         {
           headers: {

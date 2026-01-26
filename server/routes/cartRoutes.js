@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const verifyTokenAndUser = require("../middleware/verifyTokenAndUser");
+<<<<<<< HEAD
 const User = require("../models/user_model.js");
 
 //Add products to the cart or increase their quantity
@@ -35,6 +36,36 @@ router.post("/cart", verifyTokenAndUser, async (req, res) => {
 
 //Decrease product's quantity in the cart or delete it fully - (for Home.jsx and Cart.jsx)
 router.patch("/cart", verifyTokenAndUser, async (req, res) => {
+=======
+
+//Add products to the cart or increase their quantity
+router.post("/cart/add", verifyTokenAndUser , async (req, res) => {
+  const user = req.user;
+  const { product } = req.body;
+
+  try {
+    const existingProduct = user.cart.find((item) => item._id === product._id);
+
+    if (existingProduct) {
+      existingProduct.quantity += 1;
+      user.markModified("cart");
+    } else {
+      user.cart.push({ ...product, quantity: 1 });
+    }
+
+    await user.save();
+
+    return res
+      .status(200)
+      .json({ message: "Product added to cart", cart: user.cart });
+  } catch (err) {
+    return res.status(500).json({ message: "Server Error" });
+  }
+});
+
+//Decrease product's quantity in the cart or delete it fully
+router.patch("/cart/decrease", verifyTokenAndUser, async (req, res) => {
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
   const user = req.user;
   const { productId } = req.body; 
 
@@ -48,7 +79,11 @@ router.patch("/cart", verifyTokenAndUser, async (req, res) => {
 
   try {
     const existingProduct = user.cart.find(
+<<<<<<< HEAD
       (item) => item.product.toString() === productId
+=======
+      (item) => item._id.toString() === productId
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
     );
 
     if (!existingProduct) {
@@ -61,8 +96,14 @@ router.patch("/cart", verifyTokenAndUser, async (req, res) => {
 
     if (existingProduct.quantity > 1) {
       existingProduct.quantity -= 1;
+<<<<<<< HEAD
     } else {
       user.cart = user.cart.filter((item) => item.product.toString() !== productId);
+=======
+      user.markModified("cart"); 
+    } else {
+      user.cart = user.cart.filter((item) => item._id.toString() !== productId);
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
     }
 
     await user.save();
@@ -83,6 +124,7 @@ router.patch("/cart", verifyTokenAndUser, async (req, res) => {
 });
 
 
+<<<<<<< HEAD
 //Delete the product from the cart - (for Cart.jsx)
 router.delete("/cart", verifyTokenAndUser ,async (req, res) => {
   const user = req.user;
@@ -91,6 +133,16 @@ router.delete("/cart", verifyTokenAndUser ,async (req, res) => {
   try {
     user.cart = user.cart.filter(
       (item) => item.product.toString() !== productId
+=======
+//Delete the product from the cart
+router.delete("/cart/delete", verifyTokenAndUser ,async (req, res) => {
+  const user = req.user;
+  const { product } = req.body;
+
+  try {
+    user.cart = user.cart.filter(
+      (item) => item._id !== product._id
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
     );
     await user.save();
 
@@ -105,8 +157,13 @@ router.delete("/cart", verifyTokenAndUser ,async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 //Get all the products from the cart
 router.get("/cart", verifyTokenAndUser, async (req, res) => {
+=======
+//Get products from the cart
+router.get("/cart/products", verifyTokenAndUser, async (req, res) => {
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
   const user = req.user
   try {
     return res.status(200).json({ cartProducts: user.cart });

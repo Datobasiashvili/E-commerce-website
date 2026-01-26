@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useEffect, useContext } from "react";
 import { UserContext } from "./App";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +22,106 @@ export default function Cart() {
       navigate("/signup");
     }
   }, [isAuthenticated, user, navigate]);
+=======
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "./App";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Header from "./Header";
+import {
+  addProductToCart,
+  deleteProductFromCart,
+  decreaseCartProductQuantity,
+} from  "../api/cartAPI";
+import LoadingPage from "./Loadingpage";
+import "../styles/cart.css";
+
+export default function Cart() {
+  const [cartProducts, setCartProducts] = useState([]);
+  const { user, isAuthenticated } = useContext(UserContext);
+
+  const navigate = useNavigate();
+
+  // Redirect if user not logged in
+    useEffect(() => {
+      if (!isAuthenticated && !user) {
+        navigate("/signup");
+      }
+    }, [isAuthenticated, navigate]);
+
+  const getCart = async () => {
+    try {
+      const response = await axios.get(
+        "https://e-commerce-website-47sr.onrender.com/api/cart/products",
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response.status === 200) {
+        setCartProducts(() => response.data.cartProducts);
+      }
+    } catch (err) {
+      console.error(err.response?.data || err.message);
+      setCartProducts([]);
+    }
+  };
+
+  //Fetching data from the cart/products whenevr a new produt is being added to the cart.
+  const handleAddCartProduct = async (e, product) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    try {
+      const response = await addProductToCart(product);
+      if (response.status === 200) {
+        console.log(response.data.message);
+        getCart();
+      }
+    } catch (err) {
+      console.error(`Error during adding the product: ${err}`);
+    }
+  };
+
+  const handleDeleteCartProduct = async (e, product) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    try {
+      const response = await deleteProductFromCart(product);
+      if (response.status === 200) {
+        console.log(response.data.message);
+        getCart();
+      }
+    } catch (err) {
+      console.error(`Error during deleting the product from cart: ${err}`);
+    }
+  };
+
+  const handleDecreaseProductQuantity = async (e, productId) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    try {
+      const response = await decreaseCartProductQuantity(productId);
+      if (response.status === 200) {
+        getCart();
+      }
+    } catch (err) {
+      console.error(
+        `Error during decreasing the product's quantity from the cart: ${err}`
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (user && user._id) {
+      getCart();
+    } else {
+      setCartProducts([]);
+    }
+  }, [user]);
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
 
   if (!user || !user._id) {
     return <LoadingPage />;
@@ -81,12 +182,17 @@ export default function Cart() {
                       <div className="quantity-controls">
                         <button
                           className="quantity-btn"
+<<<<<<< HEAD
                           disabled={updatingId === product._id}
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
                             handleDecreaseCartQuantity(product);
                           }
+=======
+                          onClick={(e) =>
+                            handleDecreaseProductQuantity(e, product._id)
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
                           }
                         >
                           -
@@ -94,12 +200,16 @@ export default function Cart() {
                         <span className="quantity">{product.quantity}</span>
                         <button
                           className="quantity-btn"
+<<<<<<< HEAD
                           disabled={updatingId === product._id}
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
                             handleAddToCart(product);
                           }}
+=======
+                          onClick={(e) => handleAddCartProduct(e, product)}
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
                         >
                           +
                         </button>
@@ -108,11 +218,15 @@ export default function Cart() {
                   </div>
                   <button
                     className="remove-item-btn"
+<<<<<<< HEAD
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
                       handleDeleteCartProduct(product._id)
                     }}
+=======
+                    onClick={(e) => handleDeleteCartProduct(e, product)}
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

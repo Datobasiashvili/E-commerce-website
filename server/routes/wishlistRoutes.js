@@ -10,7 +10,11 @@ router.post("/wishlist", verifyTokenAndUser, async (req, res) => {
     if (!user.wishlist) user.wishlist = [];
 
     const existingWishlistProduct = user.wishlist.find(
+<<<<<<< HEAD
       (id) => id === productId
+=======
+      (id) => id.toString() === productId.toString()
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
     );
 
     if (existingWishlistProduct) {
@@ -20,7 +24,11 @@ router.post("/wishlist", verifyTokenAndUser, async (req, res) => {
       });
     }
 
+<<<<<<< HEAD
     //We're saving only ID's in wishlist for less server lag.
+=======
+    //We're saving only ID's in wishlist for less server lagging and displaying them on frontend after.
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
     user.wishlist.push(productId);
     await user.save();
 
@@ -34,6 +42,10 @@ router.post("/wishlist", verifyTokenAndUser, async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
 //Gettin user's wishlist products
 router.get("/wishlist", verifyTokenAndUser, async (req, res) => {
   try {
@@ -56,7 +68,11 @@ router.get("/wishlist", verifyTokenAndUser, async (req, res) => {
 
 //Deleting user's wishlist product
 router.delete("/wishlist/:productId", verifyTokenAndUser, async (req, res) => {
+<<<<<<< HEAD
   try {
+=======
+   try {
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
     const user = req.user;
     const { productId } = req.params;
     user.wishlist = user.wishlist.filter(
@@ -68,6 +84,7 @@ router.delete("/wishlist/:productId", verifyTokenAndUser, async (req, res) => {
       message: "Product removed from wishlist successfully",
       wishlist: user.wishlist,
     });
+<<<<<<< HEAD
 
   } catch (err) {
     console.error('Adding to wishlist error:', err);
@@ -75,5 +92,14 @@ router.delete("/wishlist/:productId", verifyTokenAndUser, async (req, res) => {
   }
 
 });
+=======
+    
+  } catch (err) {
+    console.error(`Error: ${err}`);
+    res.status(500).json({ success: false, message: "Server error while removing the product from wishlist." });
+  }
+
+})
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
 
 module.exports = router;

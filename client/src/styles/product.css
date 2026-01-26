@@ -277,6 +277,7 @@
   border-color: #4f46e5;
 }
 
+<<<<<<< HEAD
 /* Comment Section Styling */
 .sp-reviews-section {
   grid-column: 1 / -1;
@@ -596,6 +597,8 @@
   }
 }
 
+=======
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
 /* Responsive design */
 @media (max-width: 968px) {
   .sp-product-container {

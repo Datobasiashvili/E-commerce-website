@@ -15,8 +15,11 @@ export default function Wishlist() {
   const products = productsContext?.productData || [];
   const navigate = useNavigate();
 
+<<<<<<< HEAD
   const API_URL = import.meta.env.VITE_API_URL;
 
+=======
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
   // Redirect if user not logged in
   useEffect(() => {
     if (!isAuthenticated && !user) {
@@ -28,7 +31,11 @@ export default function Wishlist() {
   const getWishlist = async () => {
     try {
       const response = await axios.get(
+<<<<<<< HEAD
         `${API_URL}/wishlist`,
+=======
+        "https://e-commerce-website-47sr.onrender.com/api/wishlist",
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
         { withCredentials: true }
       );
 

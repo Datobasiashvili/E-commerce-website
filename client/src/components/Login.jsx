@@ -1,7 +1,10 @@
 import "../styles/login.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 import { useWishlist } from "../../hooks/useWishlist";
+=======
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
 import axios from "axios";
 import { useContext } from "react";
 import { UserContext } from "./App";
@@ -15,10 +18,13 @@ export default function Login() {
   const { setIsAuthenticated, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
+<<<<<<< HEAD
   const { getWishlist } = useWishlist(); 
 
   const API_URL = import.meta.env.VITE_API_URL;
 
+=======
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
@@ -32,7 +38,11 @@ export default function Login() {
 
     try {
       const response = await axios.post(
+<<<<<<< HEAD
         `${API_URL}/login`,
+=======
+        "https://e-commerce-website-47sr.onrender.com/api/login",
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
         userData,
         {
           headers: {
@@ -46,9 +56,12 @@ export default function Login() {
         setUser(response.data.user);
         setIsAuthenticated(true);
         console.log("Logged in successfully");
+<<<<<<< HEAD
 
         await getWishlist();
         
+=======
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
         setError(null);
         setEmail("");
         setPassword("");

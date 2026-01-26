@@ -12,11 +12,16 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+<<<<<<< HEAD
     "axios": "^1.12.2",
+=======
+    "axios": "^1.11.0",
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+<<<<<<< HEAD
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "express-validator": "^7.2.1",
@@ -26,6 +31,15 @@
     "mongoose": "^8.19.1",
     "nodemailer": "^7.0.5",
     "react-router-dom": "^7.9.4"
+=======
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "joi": "^18.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.19.0",
+    "mongoose": "^8.17.1",
+    "nodemailer": "^7.0.5"
+>>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
