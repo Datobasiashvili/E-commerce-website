@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React from "react";
 import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -8,13 +7,6 @@ import { addToWishlist } from "../api/wishlistAPI";
 
 import { useCart } from "../../hooks/useCart";
 
-=======
-import { useState, useEffect, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import LoadingPage from "./Loadingpage";
-import { addProductToCart } from "../api/cartAPI";
-import { addToWishlist } from "../api/wishlistAPI";
->>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
 import axios from "axios";
 import GoBackBtn from "./GoBackBtn";
 import { UserContext } from "./App";
@@ -25,7 +17,6 @@ export default function Product() {
   const { productId } = useParams();
   const [product, setProduct] = useState([]);
   const [imgThumbnail, setImgThumbnail] = useState(null);
-<<<<<<< HEAD
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(0);
   const [reviews, setReviews] = useState([]);
@@ -39,18 +30,6 @@ export default function Product() {
     axios
       .get(
         `${API_URL}/products/${productId}`
-=======
-  const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState("");
-  const [comment, setComment] = useState("");
-  const [reviews, setReviews] = useState([]);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    axios
-      .get(
-        `https://e-commerce-website-47sr.onrender.com/api/products/${productId}`
->>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
       )
       .then((res) => {
         setProduct(res.data);
@@ -59,7 +38,6 @@ export default function Product() {
       .catch((err) => console.error("Error:", err));
   }, [productId]);
 
-<<<<<<< HEAD
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -94,52 +72,6 @@ export default function Product() {
   //   setTimeout(() => setMessage(""), 3500);
   // };
 
-=======
-  useEffect(() => {
-    axios
-      .get(
-        `https://e-commerce-website-47sr.onrender.com/api/products/${productId}/reviews`, {
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
-        setReviews(res.data);
-      })
-      .catch((err) => console.error("Error fetching reviews:", err));
-  }, [productId]);
-
-  const handleAddProduct = async (e, product) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    try {
-      const response = await addProductToCart(product);
-      if (response.status === 200) {
-        setMessage(response.data.message);
-        setMessageType("success");
-
-        // Fade out after 3 seconds
-        setTimeout(() => {
-          const messageElement = document.querySelector(".sp-message");
-          if (messageElement) {
-            messageElement.classList.add("fade-out");
-          }
-        }, 3000);
-
-        // Remove message after fade-out transition (0.5s)
-        setTimeout(() => setMessage(""), 3500);
-      }
-    } catch (err) {
-      setMessage("Failed to add product");
-      setMessageType("error");
-      setTimeout(() => {
-        const messageElement = document.querySelector(".sp-message");
-        if (messageElement) messageElement.classList.add("fade-out");
-      }, 3000);
-      setTimeout(() => setMessage(""), 3500);
-    }
-  };
->>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
 
   const handleAddToWishlist = async (e, productId) => {
     e.preventDefault();
@@ -158,7 +90,6 @@ export default function Product() {
     }
   };
 
-<<<<<<< HEAD
   const handleReviewSubmit = async (e) => {
     e.stopPropagation();
     e.preventDefault();
@@ -185,9 +116,6 @@ export default function Product() {
       }
     }
   };
-=======
-  const handleReviewSubmit = () => {};
->>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
 
   const handleNavigate = (e) => {
     e.stopPropagation();
@@ -252,7 +180,6 @@ export default function Product() {
           )}
 
           {/* Display the message */}
-<<<<<<< HEAD
           {cartMessage && (
             <p
               className={
@@ -260,33 +187,18 @@ export default function Product() {
               }
             >
               {cartMessage}
-=======
-          {message && (
-            <p
-              className={
-                messageType === "success" ? "sp-message" : "sp-err-message"
-              }
-            >
-              {message}
->>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
             </p>
           )}
 
           <div className="sp-buttons">
             <button
               onClick={(e) => {
-<<<<<<< HEAD
                 e.preventDefault();
                 e.stopPropagation();
 
                 if(isAuthenticated){
                   handleAddToCart(product)
                 } else{
-=======
-                if (isAuthenticated) {
-                  handleAddProduct(e, product);
-                } else {
->>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
                   handleNavigate(e);
                 }
               }}
@@ -317,7 +229,6 @@ export default function Product() {
         </div>
 
         {isAuthenticated ? (
-<<<<<<< HEAD
           <div className="sp-reviews-section">
             <h2 className="sp-reviews-title">Customer Reviews</h2>
 
@@ -356,24 +267,10 @@ export default function Product() {
               </button>
             </form>
 
-=======
-          <>
-            <form onSubmit={handleReviewSubmit}>
-              <input
-                type="text"
-                id="comment"
-                placeholder="Add comment..."
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-              />
-              <button type="submit">Submit</button>
-            </form>
->>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
             <div className="sp-reviews">
               {reviews && reviews.length > 0 ? (
                 reviews.map((review) => (
                   <div key={review._id} className="sp-review-container">
-<<<<<<< HEAD
                     <div className="sp-review-header">
                       <p className="sp-review-username">{review.username}</p>
                       <div className="sp-review-rating">
@@ -388,20 +285,10 @@ export default function Product() {
                         month: 'long',
                         day: 'numeric'
                       })}
-=======
-                    <p>
-                      <strong>{review.reviewer.name}</strong>
-                    </p>
-                    <p>Rating: {review.rating} / 5</p>
-                    <p>{review.comment}</p>
-                    <p className="review-date">
-                      {new Date(review.date).toLocaleDateString()}
->>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
                     </p>
                   </div>
                 ))
               ) : (
-<<<<<<< HEAD
                 <div className="sp-no-reviews">
                   No reviews yet. Be the first to share your thoughts!
                 </div>
@@ -421,14 +308,6 @@ export default function Product() {
               Sign In / Sign Up
             </button>
           </div>
-=======
-                <p>No reviews...</p>
-              )}
-            </div>
-          </>
-        ) : (
-          <h1>Hello world</h1>
->>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
         )}
       </div>
     </>

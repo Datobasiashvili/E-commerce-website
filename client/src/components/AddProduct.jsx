@@ -17,21 +17,12 @@ export default function AddProduct() {
     thumbnail: "",
     images: [""],
   });
-<<<<<<< HEAD
   const { setProductData } = useProducts();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const API_URL = import.meta.env.VITE_API_URL;
-=======
-  const navigate = useNavigate();
-
-  const { setProductData } = useProducts();
-
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState(null);
->>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -63,11 +54,7 @@ export default function AddProduct() {
       };
 
       const response = await axios.post(
-<<<<<<< HEAD
         `${API_URL}/products`,
-=======
-        "https://e-commerce-website-47sr.onrender.com/api/products",
->>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
         payload,
         { withCredentials: true }
       );

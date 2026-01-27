@@ -1,17 +1,8 @@
-<<<<<<< HEAD
 import { useContext } from "react";
 import { useProducts } from "./ProductContext";
 import { UserContext } from "./App";
 import { useWishlist } from "../../hooks/useWishlist";
 import { useCart } from "../../hooks/useCart";
-=======
-import { useContext, useState, useEffect } from "react";
-import { useProducts } from "./ProductContext";
-import { UserContext } from "./App";
-import axios from "axios";
-import { addProductToCart, decreaseCartProductQuantity } from "../api/cartAPI";
-import { addToWishlist } from "../api/wishlistAPI";
->>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
 
 import LoadingPage from "./Loadingpage";
 import Header from "./Header";
@@ -24,75 +15,12 @@ import "../styles/home.css";
 export default function Home() {
   const productsContext = useProducts();
   const products = productsContext?.productData || [];
-<<<<<<< HEAD
   const { isAuthenticated } = useContext(UserContext);
   const navigate = useNavigate();
 
   const { updatingId, handleAddToCart, handleDecreaseCartQuantity, getProductQuantity } = useCart();
 
   const { wishlistIds, handleAddToWishlist } = useWishlist();
-=======
-  const [cartProducts, setCartProducts] = useState([]);
-  const [wishlistIds, setWishlistIds] = useState([]);
-  const { isAuthenticated } = useContext(UserContext);
-  const navigate = useNavigate();
-
-  const getCart = async () => {
-    try {
-      const response = await axios.get(
-        "https://e-commerce-website-47sr.onrender.com/api/cart/products",
-        {
-          withCredentials: true,
-        }
-      );
-
-      if (response.status === 200) {
-        setCartProducts(() => response.data.cartProducts);
-      }
-    } catch (err) {
-      console.error(err.response?.data || err.message);
-      setCartProducts([]);
-    }
-  };
-
-  const getWishlist = async () => {
-    try {
-      const response = await axios.get(
-        "https://e-commerce-website-47sr.onrender.com/api/wishlist",
-        { withCredentials: true }
-      );
-      if (response.status === 200) {
-        setWishlistIds(response.data.wishlistIds || []);
-      }
-    } catch (err) {
-      console.error(err.response?.data || err.message);
-      setWishlistIds([]);
-    }
-  };
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      getCart();
-      getWishlist();
-    } else {
-      setCartProducts([]);
-      setWishlistIds([]);
-    }
-  }, [isAuthenticated]);
-
-  const handleAddProduct = async (e, product) => {
-    e.preventDefault();
-    e.stopPropagation();
-    try {
-      const response = await addProductToCart(product);
-      if (response.status === 200) {
-        getCart();
-      }
-    } catch (err) {
-      console.error(`Error during adding the product: ${err}`);
-    }
-  };
->>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
 
   const chunkArray = (array, chunkSize) => {
     const chunks = [];
@@ -115,59 +43,6 @@ export default function Home() {
     categoryChunks[category] = chunkArray(groupedProducts[category], 5);
   }
 
-<<<<<<< HEAD
-=======
-  //Changing cart product's quantity from the home page.
-  const handleAddCartProduct = async (e, product) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    try {
-      const response = await addProductToCart(product);
-      if (response.status === 200) {
-        getCart();
-      }
-    } catch (err) {
-      console.error(`Error during adding the product: ${err}`);
-    }
-  };
-
-  const handleDecreaseProductQuantity = async (e, productId) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    try {
-      const response = await decreaseCartProductQuantity(productId);
-      if (response.status === 200) {
-        getCart();
-      }
-    } catch (err) {
-      console.error(
-        `Error during decreasing the product's quantity from the cart: ${err}`
-      );
-    }
-  };
-
-  const getProductQuantity = (productId) => {
-    const item = cartProducts?.find((p) => p._id === productId);
-    return item ? item.quantity : 0;
-  };
-
-  const handleAddToWishlist = async (e, productId) => {
-    e.preventDefault();
-    e.stopPropagation();
-    try {
-      const response = await addToWishlist(productId);
-      if (response.status === 200) {
-        setWishlistIds((prev) => [...prev, productId]);
-        console.log(response.data.message);
-      }
-    } catch (err) {
-      console.error(`Error during adding the product: ${err}`);
-    }
-  };
-
->>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
   const handleNavigate = (e) => {
     e.stopPropagation();
     e.preventDefault();
@@ -199,7 +74,6 @@ export default function Home() {
                   >
                     <button
                       onClick={(e) => {
-<<<<<<< HEAD
                           if (isAuthenticated) {
                             e.preventDefault();
                             e.stopPropagation();
@@ -212,15 +86,6 @@ export default function Home() {
                           ? "wishlist-active"
                           : ""
                         }`}
-=======
-                        isAuthenticated ? handleAddToWishlist(e, product._id) : handleNavigate(e);
-                      }}
-                      className={`wishlist-btn ${
-                        wishlistIds.includes(product._id)
-                          ? "wishlist-active"
-                          : ""
-                      }`}
->>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
                       disabled={wishlistIds.includes(product._id)}
                     >
                       <svg
@@ -246,13 +111,9 @@ export default function Home() {
                         className="add-btn"
                         onClick={(e) => {
                           if (isAuthenticated) {
-<<<<<<< HEAD
                             e.preventDefault();
                             e.stopPropagation();
                             handleAddToCart(product);
-=======
-                            handleAddProduct(e, product);
->>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
                           } else {
                             handleNavigate(e);
                           }
@@ -264,16 +125,12 @@ export default function Home() {
                       <div className="home-quantity-controls">
                         <button
                           className="increase-quantity-btn"
-<<<<<<< HEAD
                           disabled={updatingId === product._id}
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
                             handleAddToCart(product);
                           }}
-=======
-                          onClick={(e) => handleAddCartProduct(e, product)}
->>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
                         >
                           +
                         </button>
@@ -282,17 +139,12 @@ export default function Home() {
                         </span>
                         <button
                           className="decrease-quantity-btn"
-<<<<<<< HEAD
                           disabled={updatingId === product._id}
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
                             handleDecreaseCartQuantity(product)
                           }
-=======
-                          onClick={(e) =>
-                            handleDecreaseProductQuantity(e, product._id)
->>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
                           }
                         >
                           -

@@ -66,43 +66,4 @@ router.get("/products/:id", async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-=======
-// Get all reviews for a product:
-router.get("/products/:id/reviews", verifyTokenAndUser, async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.id);
-    res.status(201).json(product.reviews);
-  } catch (err) {
-    res.status(500).json({ msg: "Server error" });
-  }
-});
-
-// Add a review on a product:
-router.post("/products/:id/reviews", verifyTokenAndUser, async (req, res) => {
-  try {
-    const { error } = reviewSchema.validate(req.body);
-    if (error) return res.status(400).json({ msg: error.details[0].message });
-
-    const { comment, rating } = req.body;
-    if (!comment || !rating) return res.status(400).json({ msg: "Comment and rating are required" });
-
-    const product = await Product.findById(req.params.id);
-    if (!product) return res.status(404).json({ msg: "Product not found" });
-
-    const newReview = { comment, rating, reviewer: req.user._id };
-    product.reviews.push(newReview);
-
-    product.rating = product.reviews.reduce((sum, r) => sum + r.rating, 0) / product.reviews.length;
-    await product.save();
-
-    await newReview.populate("reviewer", "name email");
-
-    res.status(201).json({ msg: "Comment added successfully", review: newReview });
-  } catch (err) {
-    res.status(500).json({ msg: "Server error", error: err.message });
-  }
-});
-
->>>>>>> ddd6f5e2493fe3f07c819747f4d2599ccaa64c16
 module.exports = router;
