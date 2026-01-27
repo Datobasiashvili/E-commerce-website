@@ -7,7 +7,6 @@ export function useCart() {
     const [cartProducts, setCartProducts] = useState([]);
     const [cartMessage, setCartMessage] = useState("");
     const [cartMessageType, setCartMessageType] = useState("");
-    const [updatingId, setUpdatingId] = useState(null);
     const API_URL = import.meta.env.VITE_API_URL;
 
     const productsContext = useProducts();
@@ -35,8 +34,6 @@ export function useCart() {
     };
 
     const handleAddToCart = async (product) => {
-        if (updatingId === product._id) return; // block fast double clicks
-        setUpdatingId(product._id);
 
         setCartProducts((prev) =>
             prev.some((p) => p._id === product._id)
@@ -51,13 +48,11 @@ export function useCart() {
             setCartMessage(response?.data?.message || "Added to cart");
             setCartMessageType("success");
         } catch (err) {
-            console.error(err);
+            console.error(`Error adding product to cart ${err}`);
             setCartMessage("Failed to add product to cart");
             setCartMessageType("error");
             await getCart();
         } finally {
-            setUpdatingId(null);
-
             setTimeout(() => {
                 setCartMessage("");
                 setCartMessageType("");
@@ -66,9 +61,6 @@ export function useCart() {
     }
 
     const handleDecreaseCartQuantity = async (product) => {
-
-        if (updatingId === product._id) return; // block fast double clicks
-        setUpdatingId(product._id);
 
         setCartProducts((prev) =>
             prev
@@ -85,8 +77,6 @@ export function useCart() {
         } catch (err) {
             console.error(err);
             await getCart(); // rollback from server
-        } finally {
-            setUpdatingId(null);
         }
     };
 
@@ -110,5 +100,5 @@ export function useCart() {
         return item ? item.quantity : 0;
     }
 
-    return { updatingId, cartProducts, setCartProducts, getCart, handleAddToCart, handleDecreaseCartQuantity, getProductQuantity, handleDeleteCartProduct, cartMessage, cartMessageType }
+    return { cartProducts, setCartProducts, getCart, handleAddToCart, handleDecreaseCartQuantity, getProductQuantity, handleDeleteCartProduct, cartMessage, cartMessageType }
 }

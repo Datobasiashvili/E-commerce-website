@@ -15,7 +15,7 @@ import "../styles/product.css";
 export default function Product() {
   const { isAuthenticated } = useContext(UserContext);
   const { productId } = useParams();
-  const [product, setProduct] = useState([]);
+  const [product, setProduct] = useState(null);
   const [imgThumbnail, setImgThumbnail] = useState(null);
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(0);
@@ -43,8 +43,7 @@ export default function Product() {
     const fetchReviews = async () => {
       try {
         const res = await axios.get(
-          `${API_URL}/products/${productId}/reviews`,
-          { withCredentials: true }
+          `${API_URL}/products/${productId}/reviews`
         );
         setReviews(res.data);
       } catch (err) {
@@ -54,24 +53,6 @@ export default function Product() {
 
     fetchReviews();
   }, [productId]);
-
-  // const handleAddProduct = async (e, product) => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-
-  //   const result = await handleAddToCart(product);
-
-  //   setMessage(result.data.message);
-  //   setMessageType(result.success ? "success" : "error");
-
-  //   setTimeout(() => {
-  //     const el = document.querySelector(".sp-message");
-  //     if (el) el.classList.add("fade-out");
-  //   }, 3000);
-
-  //   setTimeout(() => setMessage(""), 3500);
-  // };
-
 
   const handleAddToWishlist = async (e, productId) => {
     e.preventDefault();
@@ -104,6 +85,9 @@ export default function Product() {
         { withCredentials: true }
       );
       if (response.status === 201) {
+        setReviews((prev) => [response.data.review, ...prev]);
+        setComment("");
+        setRating(0);
         console.log("Review added successfully");
       }
     } catch (err) {
@@ -196,9 +180,9 @@ export default function Product() {
                 e.preventDefault();
                 e.stopPropagation();
 
-                if(isAuthenticated){
+                if (isAuthenticated) {
                   handleAddToCart(product)
-                } else{
+                } else {
                   handleNavigate(e);
                 }
               }}
@@ -267,33 +251,6 @@ export default function Product() {
               </button>
             </form>
 
-            <div className="sp-reviews">
-              {reviews && reviews.length > 0 ? (
-                reviews.map((review) => (
-                  <div key={review._id} className="sp-review-container">
-                    <div className="sp-review-header">
-                      <p className="sp-review-username">{review.username}</p>
-                      <div className="sp-review-rating">
-                        {"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}
-                        <span>({review.rating}/5)</span>
-                      </div>
-                    </div>
-                    <p className="sp-review-comment">{review.comment}</p>
-                    <p className="sp-review-date">
-                      {new Date(review.createdAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}
-                    </p>
-                  </div>
-                ))
-              ) : (
-                <div className="sp-no-reviews">
-                  No reviews yet. Be the first to share your thoughts!
-                </div>
-              )}
-            </div>
           </div>
         ) : (
           <div className="sp-auth-required">
@@ -309,6 +266,34 @@ export default function Product() {
             </button>
           </div>
         )}
+
+        <div className="sp-reviews">
+          {reviews && reviews.length > 0 ? (
+            reviews.map((review) => (
+              <div key={review._id} className="sp-review-container">
+                <div className="sp-review-header">
+                  <p className="sp-review-username">{review.username}</p>
+                  <div className="sp-review-rating">
+                    {"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}
+                    <span>({review.rating}/5)</span>
+                  </div>
+                </div>
+                <p className="sp-review-comment">{review.comment}</p>
+                <p className="sp-review-date">
+                  {new Date(review.createdAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </p>
+              </div>
+            ))
+          ) : (
+            <div className="sp-no-reviews">
+              No reviews yet. Be the first to share your thoughts!
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

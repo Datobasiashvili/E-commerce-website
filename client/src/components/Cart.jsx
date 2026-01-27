@@ -12,7 +12,7 @@ export default function Cart() {
   const productsContext = useProducts();
   const products = productsContext?.productData || [];
 
-  const { updatingId, cartProducts, handleAddToCart, handleDecreaseCartQuantity, handleDeleteCartProduct } = useCart(products);
+  const { updatingId, cartProducts, handleAddToCart, handleDecreaseCartQuantity, handleDeleteCartProduct } = useCart();
 
   const navigate = useNavigate();
 

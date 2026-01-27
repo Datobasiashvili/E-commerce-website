@@ -1,86 +1,24 @@
 import Header from "./Header";
-import { useState, useEffect, useContext } from "react";
-import { useProducts } from "./ProductContext";
+import { useEffect, useContext } from "react";
+import { useWishlist } from "../../hooks/useWishlist";
+import { useCart } from "../../hooks/useCart";
 import { UserContext } from "./App";
 import { useNavigate } from "react-router-dom";
-import { removeFromWishlist } from "../api/wishlistAPI";
-import { addProductToCart } from "../api/cartAPI";
-import axios from "axios";
 import "../styles/wishlist.css";
 
 export default function Wishlist() {
   const { user, isAuthenticated } = useContext(UserContext);
-  const [productIds, setProductIds] = useState([]);
-  const productsContext = useProducts();
-  const products = productsContext?.productData || [];
   const navigate = useNavigate();
 
-  const API_URL = import.meta.env.VITE_API_URL;
+  const { wishlistProducts, handleDeleteFromWishlist } = useWishlist();
+  const { handleAddToCart } = useCart();
 
-  // Redirect if user not logged in
+  // Redirect if user is not logged in
   useEffect(() => {
     if (!isAuthenticated && !user) {
       navigate("/signup");
     }
   }, [isAuthenticated, navigate]);
-
-  // Fetch wishlist IDs
-  const getWishlist = async () => {
-    try {
-      const response = await axios.get(
-        `${API_URL}/wishlist`,
-        { withCredentials: true }
-      );
-
-      if (response.status === 200) {
-        setProductIds(response.data.wishlistIds);
-        console.log("WISHLIST IDS:", response.data.wishlistIds);
-      }
-    } catch (err) {
-      console.error(err.response?.data || err.message);
-      setProductIds([]);
-    }
-  };
-
-  // Delete from wishlist
-  const handleDelete = async (e, productId) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    try {
-      const response = await removeFromWishlist(productId);
-      if (response.status === 200) {
-        console.log(response.data.message);
-        setProductIds((prev) => prev.filter((id) => id.toString() !== productId.toString()));
-      }
-    } catch (err) {
-      console.error(`Error during deleting product from wishlist: ${err}`);
-      setProductIds([])
-    }
-  };
-
-  // Add to cart
-  const handleAddToCart = async (e, product) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    try {
-      const response = await addProductToCart(product);
-      if (response.status === 200) {
-        console.log("Added to cart:", response.data.message);
-      }
-    } catch (err) {
-      console.error(`Error adding product to cart: ${err}`);
-    }
-  };
-
-  // Get wishlist on mount
-  useEffect(() => {
-    getWishlist();
-  }, []);
-
-  // Filter products using wishlist IDs
-  const wishlistProducts = products.filter((p) => productIds?.includes(p._id));
 
   return (
     <>
@@ -101,7 +39,11 @@ export default function Wishlist() {
                     <p>${product.price}</p>
                   </div>
                   <div className="wishlist-actions">
-                    <button onClick={(e) => handleDelete(e, product._id)}>
+                    <button onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      handleDeleteFromWishlist(product._id);
+                    }}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         height="24px"
@@ -112,7 +54,11 @@ export default function Wishlist() {
                         <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
                       </svg>
                     </button>
-                    <button onClick={(e) => handleAddToCart(e, product)}>
+                    <button onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      handleAddToCart(product);
+                    }}>
                       Add to Cart
                     </button>
                   </div>

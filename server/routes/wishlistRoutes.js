@@ -27,6 +27,7 @@ router.post("/wishlist", verifyTokenAndUser, async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Product added to wishlist",
+      wishlist: user.wishlist
     });
   } catch (err) {
     console.error(`Error: ${err}`);
@@ -60,7 +61,7 @@ router.delete("/wishlist/:productId", verifyTokenAndUser, async (req, res) => {
     const user = req.user;
     const { productId } = req.params;
     user.wishlist = user.wishlist.filter(
-      (id) => id !== productId
+      (id) => id.toString() !== productId.toString()
     );
     await user.save();
 

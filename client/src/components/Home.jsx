@@ -18,9 +18,9 @@ export default function Home() {
   const { isAuthenticated } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const { updatingId, handleAddToCart, handleDecreaseCartQuantity, getProductQuantity } = useCart();
+  const { handleAddToCart, handleDecreaseCartQuantity, getProductQuantity } = useCart();
 
-  const { wishlistIds, handleAddToWishlist } = useWishlist();
+  const { wishlistIds, handleAddToWishlist, handleDeleteFromWishlist } = useWishlist();
 
   const chunkArray = (array, chunkSize) => {
     const chunks = [];
@@ -125,7 +125,6 @@ export default function Home() {
                       <div className="home-quantity-controls">
                         <button
                           className="increase-quantity-btn"
-                          disabled={updatingId === product._id}
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
@@ -139,7 +138,6 @@ export default function Home() {
                         </span>
                         <button
                           className="decrease-quantity-btn"
-                          disabled={updatingId === product._id}
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
