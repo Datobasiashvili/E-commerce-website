@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const verifyTokenAndUser = require("../middleware/verifyTokenAndUser");
 const Review = require("../models/review_model");
+const Product = require("..//models/product_model");
 const { reviewSchema } = require("../utils/validationSchema");
 
 
@@ -11,7 +12,7 @@ router.get("/products/:productId/reviews", async (req, res) => {
 
     try {
         // Sorts the reviews by the newest ones.
-        const reviews = await Review.find({ productId })
+        const reviews = await Review.find({ productId }).sort({ createdAt: -1 });
 
         return res.status(200).json(reviews);
     } catch (err) {
@@ -44,7 +45,23 @@ router.post("/reviews/:productId", verifyTokenAndUser, async (req, res) => {
             rating
         });
 
-        return res.status(201).json(review);
+        const reviews = await Review.find({ productId });
+
+        const avgRating =
+            reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
+
+        // Update product with real rating
+        await Product.findByIdAndUpdate(productId, {
+            rating: avgRating,
+            ratingCount: reviews.length
+        });
+
+        return res.status(201).json({
+            message: "Review added",
+            review,
+            avgRating,
+            ratingCount: reviews.length
+        });
 
     } catch (err) {
         console.error("Add review error:", err);

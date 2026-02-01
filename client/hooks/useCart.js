@@ -45,7 +45,7 @@ export function useCart() {
 
         try {
             const response = await addProductToCart(product._id);
-            setCartMessage(response?.data?.message || "Added to cart");
+            setCartMessage(response?.data?.message || "Product added to cart");
             setCartMessageType("success");
         } catch (err) {
             console.error(`Error adding product to cart ${err}`);
@@ -56,7 +56,7 @@ export function useCart() {
             setTimeout(() => {
                 setCartMessage("");
                 setCartMessageType("");
-            }, 3500);
+            }, 1750);
         }
     }
 

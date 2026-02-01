@@ -27,7 +27,7 @@ export default function DetailedProduct({ product }) {
 
             <div className="dp-rating">
               <span>{product.rating}</span>
-              <span>reviews ({product.reviews.length})</span>
+              <span>reviews ({product.reviewsCount})</span>
             </div>
 
             <div className="dp-price-section">

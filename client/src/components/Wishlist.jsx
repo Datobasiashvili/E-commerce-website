@@ -13,7 +13,6 @@ export default function Wishlist() {
   const { wishlistProducts, handleDeleteFromWishlist } = useWishlist();
   const { handleAddToCart } = useCart();
 
-  // Redirect if user is not logged in
   useEffect(() => {
     if (!isAuthenticated && !user) {
       navigate("/signup");

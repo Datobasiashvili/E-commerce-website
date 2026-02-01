@@ -86,7 +86,6 @@ export default function Home() {
                           ? "wishlist-active"
                           : ""
                         }`}
-                      disabled={wishlistIds.includes(product._id)}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

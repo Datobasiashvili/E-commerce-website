@@ -41,7 +41,6 @@ app.use("/api", productRoutes);
 app.use("/api", wishlistRoutes);
 app.use("/api", reviewRoutes);
 
-
 const MONGOURL = process.env.MONGO_URL;
 mongoose
   .connect(MONGOURL)

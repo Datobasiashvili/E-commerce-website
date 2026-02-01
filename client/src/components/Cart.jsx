@@ -1,7 +1,6 @@
 import { useEffect, useContext } from "react";
 import { UserContext } from "./App";
 import { useNavigate } from "react-router-dom";
-import { useProducts } from "./ProductContext";
 import Header from "./Header";
 import LoadingPage from "./Loadingpage";
 import "../styles/cart.css";
@@ -9,8 +8,6 @@ import { useCart } from "../../hooks/useCart";
 
 export default function Cart() {
   const { user, isAuthenticated } = useContext(UserContext);
-  const productsContext = useProducts();
-  const products = productsContext?.productData || [];
 
   const { updatingId, cartProducts, handleAddToCart, handleDecreaseCartQuantity, handleDeleteCartProduct } = useCart();
 

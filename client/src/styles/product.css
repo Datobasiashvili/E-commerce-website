@@ -192,30 +192,30 @@
 }
 
 /* Message notification */
-.sp-message {
+.sp-message, .sp-err-message, .sp-info-message {
   padding: 1rem 1.5rem;
+  color: white;
+  border-radius: 10px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  animation: slideIn 0.3s ease-out;
+  transition: opacity 0.5s ease;
+}
+
+.sp-message{
   background: #10b981;
-  color: white;
-  border-radius: 10px;
-  font-weight: 500;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-  animation: slideIn 0.3s ease-out;
-  transition: opacity 0.5s ease;
 }
 
-.sp-message.fade-out, .sp-err-message.fade-out {
-  opacity: 0;
+.sp-info-message{
+  background: #f59e0b;
 }
 
-.sp-err-message {
-  padding: 1rem 1.5rem;
+.sp-err-message{
   background: #d01919;
-  color: white;
-  border-radius: 10px;
-  font-weight: 500;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-  animation: slideIn 0.3s ease-out;
-  transition: opacity 0.5s ease;
+}
+
+.sp-message.fade-out, .sp-info-message.fade-out, .sp-err-message.fade-out {
+  opacity: 0;
 }
 
 @keyframes slideIn {
@@ -228,7 +228,6 @@
     transform: translateY(0);
   }
 }
-
 
 .sp-buttons, .preview-buttons {
   display: flex;

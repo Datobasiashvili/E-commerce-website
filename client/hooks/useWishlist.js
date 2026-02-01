@@ -36,21 +36,38 @@ export function useWishlist() {
 
     const handleAddToWishlist = async (productId) => {
         try {
-            const response = await addToWishlist(productId);
-            setWishlistIds(response.data.wishlist || []);
-            setWishlistMessage(response?.data?.message || "Added to wishlist");
-            setWishlistMessageType("success");
+            let response;
+
+            //For Home.jsx's addToWishlist button
+            if (wishlistIds.includes(productId)) {
+                response = await removeFromWishlist(productId);
+                setWishlistIds((prev) => prev.filter((id) => id !== productId));
+                setWishlistMessageType("info");
+            } else {
+                response = await addToWishlist(productId);
+                setWishlistIds((prev) => [...prev, productId]);
+
+                if (response.status === 201) {
+                    setWishlistMessageType("success");
+                } else if (response.status === 200) {
+                    setWishlistMessageType("info");
+                } else {
+                    setWishlistMessageType("error");
+                }
+            }
+
+            setWishlistMessage(response?.data?.message || "");
         } catch (err) {
-            console.error(`Error adding product to wishlist: ${err}`);
-            setWishlistMessage("Failed to add product to wishlist");
+            console.error(`Wishlist error: ${err}`);
+            setWishlistMessage("Wishlist action failed");
             setWishlistMessageType("error");
         } finally {
             setTimeout(() => {
                 setWishlistMessage("");
                 setWishlistMessageType("");
-            }, 3500);
+            }, 1750);
         }
-    }
+    };
 
     const handleDeleteFromWishlist = async (productId) => {
         try {

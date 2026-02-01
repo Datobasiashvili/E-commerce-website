@@ -21,7 +21,10 @@ const productSchema = new mongoose.Schema(
       depth: Number,
     },
     rating: Number,
-    // reviews: [reviewSchema],
+    ratingCount: {
+      type: Number,
+      default: 0
+    },
     stock: Number,
     sellerName: String,
     sellerId: {

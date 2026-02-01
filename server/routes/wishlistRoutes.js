@@ -10,7 +10,7 @@ router.post("/wishlist", verifyTokenAndUser, async (req, res) => {
     if (!user.wishlist) user.wishlist = [];
 
     const existingWishlistProduct = user.wishlist.find(
-      (id) => id === productId
+      (id) => id.toString() === productId.toString()
     );
 
     if (existingWishlistProduct) {
@@ -24,7 +24,7 @@ router.post("/wishlist", verifyTokenAndUser, async (req, res) => {
     user.wishlist.push(productId);
     await user.save();
 
-    res.status(200).json({
+    res.status(201).json({
       success: true,
       message: "Product added to wishlist",
       wishlist: user.wishlist

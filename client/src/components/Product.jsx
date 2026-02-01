@@ -3,9 +3,8 @@ import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import LoadingPage from "./Loadingpage";
 
-import { addToWishlist } from "../api/wishlistAPI";
-
 import { useCart } from "../../hooks/useCart";
+import { useWishlist } from "../../hooks/useWishlist";
 
 import axios from "axios";
 import GoBackBtn from "./GoBackBtn";
@@ -22,6 +21,7 @@ export default function Product() {
   const [reviews, setReviews] = useState([]);
 
   const { handleAddToCart, cartMessage, cartMessageType } = useCart();
+  const { handleAddToWishlist, wishlistMessage, wishlistMessageType } = useWishlist();
   const navigate = useNavigate();
 
   const API_URL = import.meta.env.VITE_API_URL;
@@ -54,23 +54,6 @@ export default function Product() {
     fetchReviews();
   }, [productId]);
 
-  const handleAddToWishlist = async (e, productId) => {
-    e.preventDefault();
-    e.stopPropagation();
-    try {
-      const response = await addToWishlist(productId);
-      if (response.status === 200) {
-        setMessage(response.data.message);
-        setMessageType("success");
-        console.log(response.data.message);
-      }
-    } catch (err) {
-      setMessage("Failed to add product to wishlist");
-      setMessageType("error");
-      console.error(`Error during adding the product: ${err}`);
-    }
-  };
-
   const handleReviewSubmit = async (e) => {
     e.stopPropagation();
     e.preventDefault();
@@ -85,10 +68,18 @@ export default function Product() {
         { withCredentials: true }
       );
       if (response.status === 201) {
-        setReviews((prev) => [response.data.review, ...prev]);
+        const { review, avgRating, ratingCount } = response.data;
+
+        setReviews((prev) => [review, ...prev]);
+
+        setProduct((prev) => ({
+          ...prev,
+          rating: avgRating,
+          ratingCount: ratingCount,
+        }));
+
         setComment("");
         setRating(0);
-        console.log("Review added successfully");
       }
     } catch (err) {
       if (err.response) {
@@ -153,8 +144,8 @@ export default function Product() {
               Seller: {product.sellerName}
             </p>
           )}
-          {product.category !== "groceries" && product.rating && (
-            <p className="sp-product-rating">Rating: {product.rating} ⭐</p>
+          {product.category !== "groceries" && (
+            <p className="sp-product-rating">⭐ {product.rating} ({product.ratingCount} {product.ratingCount > 1 ? "reviews" : "review"})</p>
           )}
           {product.price !== undefined && (
             <p className="sp-product-price">${product.price}</p>
@@ -163,8 +154,8 @@ export default function Product() {
             <p className="sp-product-description-text">{product.description}</p>
           )}
 
-          {/* Display the message */}
-          {cartMessage && (
+          {/* Display the cart message or the wishlist message */}
+          {(cartMessage && (
             <p
               className={
                 cartMessageType === "success" ? "sp-message" : "sp-err-message"
@@ -172,7 +163,19 @@ export default function Product() {
             >
               {cartMessage}
             </p>
-          )}
+          )) || (wishlistMessage && (
+            <p
+              className={
+                wishlistMessageType === "success"
+                  ? "sp-message"
+                  : wishlistMessageType === "info"
+                    ? "sp-info-message"
+                    : "sp-err-message"
+              }
+            >
+              {wishlistMessage}
+            </p>
+          ))}
 
           <div className="sp-buttons">
             <button
@@ -200,8 +203,11 @@ export default function Product() {
             </button>
             <button
               onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
                 if (isAuthenticated) {
-                  handleAddToWishlist(e, product._id);
+                  handleAddToWishlist(product._id);
                 } else {
                   handleNavigate(e);
                 }

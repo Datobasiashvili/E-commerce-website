@@ -46,9 +46,6 @@ export default function Login() {
         setUser(response.data.user);
         setIsAuthenticated(true);
         console.log("Logged in successfully");
-
-        await getWishlist();
-        
         setError(null);
         setEmail("");
         setPassword("");
