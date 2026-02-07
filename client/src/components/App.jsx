@@ -18,6 +18,8 @@ import Product from "./Product.jsx";
 import AddProduct from "./AddProduct.jsx";
 import axios from "axios";
 import Layout from "./Layout.jsx";
+import UserProducts from "./UserProducts.jsx";
+
 
 export const UserContext = createContext();
 
@@ -70,6 +72,7 @@ function App() {
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/products/:productId" element={<Product />} />
         <Route path="/product/add" element={<AddProduct />} />
+        <Route path="/user/products" element={<UserProducts />} />
       </Route>
     )
   );

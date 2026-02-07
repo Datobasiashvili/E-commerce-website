@@ -96,6 +96,8 @@ export default function Account() {
 
           <button className="add-product-btn" onClick={() => navigate('/product/add')}>Add a product</button>
 
+          <button className="user-product-btn" onClick={() => navigate('/user/products')}>Your products</button>
+
         </div>
       </div>
     </>

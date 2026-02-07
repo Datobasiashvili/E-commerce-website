@@ -5,6 +5,7 @@ import LoadingPage from "./Loadingpage";
 
 import { useCart } from "../../hooks/useCart";
 import { useWishlist } from "../../hooks/useWishlist";
+import { useProducts } from "../../hooks/useProducts";
 
 import axios from "axios";
 import GoBackBtn from "./GoBackBtn";
@@ -12,16 +13,25 @@ import { UserContext } from "./App";
 import "../styles/product.css";
 
 export default function Product() {
-  const { isAuthenticated } = useContext(UserContext);
+  const { isAuthenticated, user } = useContext(UserContext);
   const { productId } = useParams();
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState();
   const [imgThumbnail, setImgThumbnail] = useState(null);
+
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(0);
   const [reviews, setReviews] = useState([]);
 
+  const [formData, setFormData] = useState({
+    title: "",
+    price: "",
+    description: ""
+  });
+  const [isEditing, setIsEditing] = useState(false);
+
   const { handleAddToCart, cartMessage, cartMessageType } = useCart();
   const { handleAddToWishlist, wishlistMessage, wishlistMessageType } = useWishlist();
+  const { handleEditProduct, handleDeleteProduct, editProductMessage, editProductMessageType } = useProducts();
   const navigate = useNavigate();
 
   const API_URL = import.meta.env.VITE_API_URL;
@@ -34,10 +44,14 @@ export default function Product() {
       .then((res) => {
         setProduct(res.data);
         res.data.images[0] && setImgThumbnail(res.data.images[0]);
+        setFormData({
+          title: res.data.title,
+          price: res.data.price,
+          description: res.data.description
+        })
       })
       .catch((err) => console.error("Error:", err));
   }, [productId]);
-
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -103,6 +117,8 @@ export default function Product() {
     return <LoadingPage />;
   }
 
+  const isOwner = user && user._id === product.sellerId;
+
   return (
     <>
       <GoBackBtn />
@@ -129,32 +145,65 @@ export default function Product() {
         </div>
 
         <div className="sp-product-info">
-          <h1 className="sp-product-title">{product.title}</h1>
+          {isEditing ? (
+            <input
+              value={formData.title}
+              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+              className="sp-product-title"
+            />
+          ) : (
+            <h1 className="sp-product-title">{product.title}</h1>
+          )}
+
           {product.brand &&
             (product.category === "books" ? (
               <p className="sp-product-brand">Author: {product.brand}</p>
             ) : (
               <p className="sp-product-brand">Brand: {product.brand}</p>
             ))}
+
           {product.category && (
             <p className="sp-product-category">Category: {product.category}</p>
           )}
+
           {product.sellerName && (
             <p className="sp-product-sellerName">
               Seller: {product.sellerName}
             </p>
           )}
+
           {product.category !== "groceries" && (
-            <p className="sp-product-rating">⭐ {product.rating} ({product.ratingCount} {product.ratingCount > 1 ? "reviews" : "review"})</p>
-          )}
-          {product.price !== undefined && (
-            <p className="sp-product-price">${product.price}</p>
-          )}
-          {product.description && (
-            <p className="sp-product-description-text">{product.description}</p>
+            <p className="sp-product-rating">⭐ {product.rating} ({product.ratingCount} {product.ratingCount === 1 ? "review" : "reviews"})</p>
           )}
 
-          {/* Display the cart message or the wishlist message */}
+          {isEditing ? (
+            <input
+              type="number"
+              value={formData.price}
+              onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+              className="sp-product-price"
+            />
+          ) : (
+            product.price !== undefined && (
+              <p className="sp-product-price">${product.price}</p>
+            )
+          )}
+
+          {isEditing ? (
+            <textarea
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })
+              }
+              className="sp-product-description-text"
+            />
+          ) : (
+            product.description && (
+              <p className="sp-product-description-text">{product.description}</p>
+            )
+          )}
+
+
+          {/* Display the cart message, wishlist message or edit message */}
           {(cartMessage && (
             <p
               className={
@@ -175,47 +224,80 @@ export default function Product() {
             >
               {wishlistMessage}
             </p>
+          )) || (editProductMessage && (
+            <p
+              className={
+                editProductMessageType === "success" ? "sp-message" : "sp-err-message"
+              }
+            >
+              {editProductMessage}
+            </p>
           ))}
 
-          <div className="sp-buttons">
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
+          {!isOwner ? (
+            <div className="sp-buttons">
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
 
-                if (isAuthenticated) {
-                  handleAddToCart(product)
-                } else {
-                  handleNavigate(e);
-                }
-              }}
-            >
-              Add to cart{" "}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-                fill="#FFFFFF"
+                  if (isAuthenticated) {
+                    handleAddToCart(product)
+                  } else {
+                    handleNavigate(e);
+                  }
+                }}
               >
-                <path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z" />
-              </svg>
-            </button>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
+                Add to cart{" "}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#FFFFFF"
+                >
+                  <path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z" />
+                </svg>
+              </button>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
 
-                if (isAuthenticated) {
-                  handleAddToWishlist(product._id);
-                } else {
-                  handleNavigate(e);
-                }
-              }}
-            >
-              Add to wishlist
-            </button>
-          </div>
+                  if (isAuthenticated) {
+                    handleAddToWishlist(product._id);
+                  } else {
+                    handleNavigate(e);
+                  }
+                }}
+              >
+                Add to wishlist
+              </button>
+            </div>
+          ) : (
+            <div className="sp-buttons">
+              {isEditing ? (
+                <button className="sp-edit-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    handleEditProduct(productId, formData, setProduct, setIsEditing);
+                  }}
+                >Save product</button>
+              ) : (
+                <button className="sp-edit-btn" onClick={() => setIsEditing(true)}>Edit your product</button>
+              )}
+
+              <button className="delete-product-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  handleDeleteProduct(productId);
+                }}
+              >Delete product</button>
+            </div>
+          )}
+
         </div>
 
         {isAuthenticated ? (
@@ -300,7 +382,7 @@ export default function Product() {
             </div>
           )}
         </div>
-      </div>
+      </div >
     </>
   );
 }

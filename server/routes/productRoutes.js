@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const Product = require("../models/product_model");
-const { productSchema, reviewSchema } = require("../utils/validationSchema");
+const { productSchema } = require("../utils/validationSchema");
 const verifyTokenAndUser = require("../middleware/verifyTokenAndUser");
+const isSeller = require("../middleware/isSeller");
 
 // Get all the products
 router.get("/products", async (req, res) => {
@@ -14,7 +15,7 @@ router.get("/products", async (req, res) => {
   }
 });
 
-// Add product to the database
+// Add product
 router.post("/products", verifyTokenAndUser, async (req, res) => {
   const user = req.user;
   const { error } = productSchema.validate(req.body);
@@ -63,6 +64,38 @@ router.get("/products/:id", async (req, res) => {
     res.status(201).json(product);
   } catch (err) {
     res.status(500).json({ msg: "Server error" });
+  }
+});
+
+// Change product
+router.patch("/products/:id", verifyTokenAndUser, isSeller, async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) return res.status(404).json({ msg: "Product not found" });
+
+    const { title, price, description } = req.body;
+    if (title !== undefined) product.title = title;
+    if (price !== undefined) product.price = price;
+    if (description !== undefined) product.description = description;
+    await product.save();
+    res.status(200).json({ msg: "Product modified", product });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Error editing product" });
+  }
+});
+
+router.delete("/products/:id", verifyTokenAndUser, isSeller, async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) return res.status(404).json({ msg: "Product not found" });
+
+    await product.deleteOne();
+
+    res.status(200).json({ msg: "Product deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Error deleting product" });
   }
 });
 

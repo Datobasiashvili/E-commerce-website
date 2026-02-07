@@ -12,7 +12,7 @@ html {
 }
 
 .category-title {
- color: rgb(60, 60, 210);
+  color: rgb(60, 60, 210);
   font-family: "Poppins", sans-serif;
   font-weight: 750;
   font-size: 35px;
@@ -61,6 +61,7 @@ html {
   transition: all 0.3s ease;
   z-index: 100;
 }
+
 .product-card .wishlist-btn svg {
   fill: rgba(226, 42, 42, 0.8);
   transition: fill 0.3s ease;
@@ -71,7 +72,7 @@ html {
   transform: scale(1.1);
 }
 
-.product-card .wishlist-btn:hover svg{
+.product-card .wishlist-btn:hover svg {
   fill: white;
 }
 
@@ -118,9 +119,18 @@ html {
 
 .add-btn {
   background: #cffade;
+  font-size: 22px;
+}
+
+.owner-badge {
+  background: rgb(168, 165, 255);
+  font-size: 16px;
+}
+
+.add-btn,
+.owner-badge {
   border: none;
   color: #111;
-  font-size: 22px;
   font-weight: bold;
   width: 100%;
   height: 42px;
@@ -132,6 +142,10 @@ html {
 
 .add-btn:hover {
   background: #8be0ac;
+}
+
+.owner-badge:hover {
+  background: rgb(151, 147, 255);
 }
 
 .home-quantity-controls {
