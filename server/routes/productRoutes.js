@@ -5,7 +5,7 @@ const { productSchema } = require("../utils/validationSchema");
 const verifyTokenAndUser = require("../middleware/verifyTokenAndUser");
 const isSeller = require("../middleware/isSeller");
 
-// Get all the products
+// Get all products
 router.get("/products", async (req, res) => {
   try {
     const products = await Product.find();
@@ -15,7 +15,7 @@ router.get("/products", async (req, res) => {
   }
 });
 
-// Add product
+// Add a product
 router.post("/products", verifyTokenAndUser, async (req, res) => {
   const user = req.user;
   const { error } = productSchema.validate(req.body);
@@ -56,7 +56,7 @@ router.post("/products", verifyTokenAndUser, async (req, res) => {
   }
 });
 
-// Get a single product:
+// Get a single product
 router.get("/products/:id", async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -66,6 +66,17 @@ router.get("/products/:id", async (req, res) => {
     res.status(500).json({ msg: "Server error" });
   }
 });
+
+// Get user products (seller)
+router.get("/user/products", verifyTokenAndUser, isSeller, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const products = await Product.find({ sellerId: userId });
+    res.status(200).json(products);
+  } catch (err) {
+    res.status(500).json({ msg: `Error getting user products: ${err}` });
+  }
+})
 
 // Change product
 router.patch("/products/:id", verifyTokenAndUser, isSeller, async (req, res) => {
@@ -85,6 +96,7 @@ router.patch("/products/:id", verifyTokenAndUser, isSeller, async (req, res) => 
   }
 });
 
+// Delete product
 router.delete("/products/:id", verifyTokenAndUser, isSeller, async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);

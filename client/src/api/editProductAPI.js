@@ -16,3 +16,10 @@ export const deleteProduct = async (productId) => {
         { withCredentials: true}
     );
 }
+
+export const getUserProducts = () => {
+  return axios.get(
+    `${API_URL}/user/products`,
+    { withCredentials: true }
+  )
+}

@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import LoadingPage from "./Loadingpage";
+import SuccessModal from "./SuccessModal";
 
 import { useCart } from "../../hooks/useCart";
 import { useWishlist } from "../../hooks/useWishlist";
@@ -17,6 +18,8 @@ export default function Product() {
   const { productId } = useParams();
   const [product, setProduct] = useState();
   const [imgThumbnail, setImgThumbnail] = useState(null);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(0);
@@ -30,8 +33,11 @@ export default function Product() {
   const [isEditing, setIsEditing] = useState(false);
 
   const { handleAddToCart, cartMessage, cartMessageType } = useCart();
+
   const { handleAddToWishlist, wishlistMessage, wishlistMessageType } = useWishlist();
+
   const { handleEditProduct, handleDeleteProduct, editProductMessage, editProductMessageType } = useProducts();
+
   const navigate = useNavigate();
 
   const API_URL = import.meta.env.VITE_API_URL;
@@ -117,11 +123,24 @@ export default function Product() {
     return <LoadingPage />;
   }
 
-  const isOwner = user && user._id === product.sellerId;
+  const handleActionSuccess = (msg) => {
+    setSuccessMessage(msg);
+    setShowSuccessModal(true);
+  };
+
+  const isOwner = user && product.sellerId && user._id === product.sellerId;
 
   return (
     <>
       <GoBackBtn />
+
+      {showSuccessModal && (
+        <SuccessModal
+          message={successMessage}
+          onClose={() => setShowSuccessModal(false)}
+        />
+      )}
+
       <div className="sp-product-container">
         <div className="sp-product-images">
           <img
@@ -169,6 +188,12 @@ export default function Product() {
           {product.sellerName && (
             <p className="sp-product-sellerName">
               Seller: {product.sellerName}
+            </p>
+          )}
+
+          {product.stock && (
+            <p className="sp-product-stock">
+              Stock: {product.stock}
             </p>
           )}
 
@@ -281,7 +306,7 @@ export default function Product() {
                   onClick={(e) => {
                     e.stopPropagation();
                     e.preventDefault();
-                    handleEditProduct(productId, formData, setProduct, setIsEditing);
+                    handleEditProduct(productId, formData, setProduct, setIsEditing, () => handleActionSuccess("Product updated successfully"));
                   }}
                 >Save product</button>
               ) : (
@@ -292,7 +317,8 @@ export default function Product() {
                 onClick={(e) => {
                   e.stopPropagation();
                   e.preventDefault();
-                  handleDeleteProduct(productId);
+                  handleDeleteProduct(productId, () => handleActionSuccess("Product deleted successfully")
+                  );
                 }}
               >Delete product</button>
             </div>
